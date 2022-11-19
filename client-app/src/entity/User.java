@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import services.PasswordHasher;
 
 public class User implements Serializable {
 
@@ -16,6 +17,7 @@ public class User implements Serializable {
 	private String email;
 	private String address;
 	private boolean isNew = false;
+	public final PasswordHasher passwordHasher = new PasswordHasher();
 
 	public User(int id, String firstName, String lastName, String username, 
 			String email, String address, String password, 
@@ -25,7 +27,7 @@ public class User implements Serializable {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
-		this.password = password;
+		this.password = this.passwordHasher.hashPassword(password);
 		this.email = email;
 		this.address = address;
 		// list of downloaded songs
@@ -37,7 +39,7 @@ public class User implements Serializable {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
-		this.password = password;
+		this.password = this.passwordHasher.hashPassword(password);
 		this.email = email;
 		this.address = address;
 	}
@@ -47,7 +49,7 @@ public class User implements Serializable {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
-		this.password = password;
+		this.password = this.passwordHasher.hashPassword(password);
 		this.email = email;
 		this.address = address;
 		this.isNew = isNew;
@@ -56,7 +58,7 @@ public class User implements Serializable {
 	public User(String username, String password) {
 		super();
 		this.username = username;
-		this.password = password;
+		this.password = this.passwordHasher.hashPassword(password);
 	}
 
 	public User(int id) {
