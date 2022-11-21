@@ -1,29 +1,32 @@
 package database;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
 import entity.User;
 import services.UsersCache;
 
 public class UsersQuery extends DbManager {
+	private static QueryBuilder<User, Integer> queryBuilder = null;
+	public static Where<User, Integer> where = null;
+	private PreparedQuery<User> query;
 
 	public static User findUserByUsernameAndPassword(String username, String password) {
 		try {
-			PreparedStatement stmt = establishConnection()
-					.prepareStatement("SELECT * FROM APP_USERS U WHERE U.USERNAME = ? AND U.PASSWORD=? ");
-			stmt.setString(1, username);
-			stmt.setString(2, password);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				int id = rs.getInt(1);
-				String firstname = rs.getString(2);
-				String lastname = rs.getString(3);
-				String email = rs.getString(4);
-				String address = rs.getString(5);
-				return new User(id, firstname, lastname, username, email, address, password, false);
+			establishConnection();
+			queryBuilder = DbManager.getUserDao().queryBuilder();
+			where = queryBuilder.where();
+			List<User> users = where.and(where.eq(User.username ,username), where.eq(username, password)).query();
+			if (users.size() == 1) {
+				return users.get(0);
+//				return new User(id, firstname, lastname, username, email, address, password, false);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -33,19 +36,18 @@ public class UsersQuery extends DbManager {
 	}
 
 	public static ConcurrentHashMap<Integer, User> findAllUsers() {
+//		String sqlStatement = "SELECT * FROM Users";
 		ConcurrentHashMap<Integer, User> usersMap = new ConcurrentHashMap<Integer, User>();
 		try {
-			PreparedStatement stmt = establishConnection().prepareStatement("SELECT * FROM APP_USERS");
-			ResultSet rs = stmt.executeQuery();
-			while (rs.next()) {
-				int id = rs.getInt(1);
-				String firstname = rs.getString(2);
-				String lastname = rs.getString(3);
-				String username = rs.getString(4);
-				String email = rs.getString(4);
-				String address = rs.getString(5);
-				String password = rs.getString(6);
-				usersMap.put(id, new User(id, firstname, lastname, username, email, address, password, false));
+			establishConnection();
+			queryBuilder = DbManager.getUserDao().queryBuilder();
+			where = queryBuilder.where();
+			
+			List<User> users = DbManager.getUserDao().queryForAll();
+			for (int i = 0; i < users.size(); i++){
+				User user = users.get(i);
+				user.setNew(false);
+				usersMap.put(user.getId(), user);
 
 			}
 		} catch (SQLException e) {
@@ -55,28 +57,21 @@ public class UsersQuery extends DbManager {
 		return usersMap;
 	}
 
-	public static void createUser(User user) throws SQLException {
+	public static void createUser(User user) throws Exception {
 		if (UsersCache.findUserByUsername(user.getUsername()) == null) {
-			String query = "INSERT INTO APP_USERS ("
+			String query = MessageFormat.format("INSERT INTO APP_USERS ("
 					+ "" + " firstname ," 
 					+ " lastname," 
 					+ " username ,"
 					+ " email ,"
 					+ " address ,"
-					+ " password ) VALUES ( ?, ?, ?, ? , ?, ?)";
+					+ " password ) VALUES ( {0}, {1}, {2}, {3} , {4})", user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(),user.getPassword());
 			System.out.println(query);
-			PreparedStatement st = establishConnection().prepareStatement(query);
-			st.setString(1, user.getFirstName());
-			st.setString(2, user.getLastName());
-			st.setString(3, user.getUsername());
-			st.setString(4, user.getEmail());
-			st.setString(5, user.getAddress());
-			st.setString(6, user.getPassword());
-
+			establishConnection();
+			queryBuilder = DbManager.getUserDao().queryBuilder();
+			where = queryBuilder.where();
 			// execute the prepared statement insert
-			st.executeUpdate();
-			st.close();
-			return;
+			DbManager.getUserDao().create(user);
 		}
 		throw new IllegalArgumentException("USER USERNAME IS UNIQUE. CREATION FAILED !");
 	}

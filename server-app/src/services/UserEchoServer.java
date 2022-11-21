@@ -97,10 +97,13 @@ public class UserEchoServer extends Thread {
 			} catch (ClassNotFoundException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 
-		private User handleRequest() throws IOException, ClassNotFoundException {
+		private User handleRequest() throws Exception {
 			User user = null;
 			// getting object input stream from client
 			ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
@@ -125,7 +128,7 @@ public class UserEchoServer extends Thread {
 
 		}
 
-		private User createUser(User u) throws InterruptedException, SQLException {
+		private User createUser(User u) throws Exception {
 			return UsersCache.addUser(u);
 		}
 

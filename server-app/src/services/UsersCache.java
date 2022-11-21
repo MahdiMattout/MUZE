@@ -89,7 +89,7 @@ public class UsersCache {
 		return null;
 	}
 
-	public static User addUser(User user) throws InterruptedException, SQLException {
+	public static User addUser(User user) throws Exception {
 		User newUser = null;
 		try {
 			readWriteLock.writeLock().tryLock(3, TimeUnit.SECONDS);

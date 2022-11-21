@@ -2,19 +2,30 @@ package entity;
 
 import java.io.Serializable;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "Projects")
 public class Project implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@DatabaseField(id = true)
+	public static int id;
+	@DatabaseField
+	public static String title;
+	@DatabaseField
+	public static String content;
+	@DatabaseField
+	public static boolean isNew = false;
+	@DatabaseField
+	public static int userId;
 
-	private int id;
-	private String title;
-	private String content;
-	private boolean isNew = false;
-	private int userId;
-
+	public Project() {
+		super();
+	}
 	public Project(String title, String content, boolean isNew) {
 		super();
 		this.title = title;

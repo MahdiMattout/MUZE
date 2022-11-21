@@ -2,20 +2,40 @@ package entity;
 
 import java.io.Serializable;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "Users")
 public class User implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
-	private String firstName;
-	private String lastName;
-	private String username;
-	private String password;
-	private String email;
-	private String address;
-	private boolean isNew = false;
+	@DatabaseField(generatedId = true)
+	public static int id;
+	@DatabaseField
+	public static String firstName;
+	@DatabaseField
+	public static String lastName;
+	@DatabaseField
+	public static String username;
+	@DatabaseField
+	public static String password;
+	@DatabaseField
+	public static String email;
+	private static String address;
+	@DatabaseField
+	public boolean isNew = false;
+	
+	public User() {
+		this.firstName = "";
+		this.lastName = "";
+		this.username = "";
+		this.password = "";
+		this.email = "";
+		this.isNew = false;
+	}
 
 	public User(int id, String firstName, String lastName, String username, 
 			String email, String address, String password, 
@@ -104,7 +124,7 @@ public class User implements Serializable {
 		this.address = address;
 	}
 	
-	public String getPassword() {
+	public static String getPassword() {
 		return password;
 	}
 
