@@ -9,11 +9,11 @@ public class Project implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private int id;
-	private String title;
-	private String content;
-	private boolean isNew = false;
-	private int userId;
+	public static int id;
+	public static String title;
+	public static String content;
+	public static boolean isNew = false;
+	public static int userId;
 
 	public Project(String title, String content, boolean isNew) {
 		super();
