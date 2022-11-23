@@ -42,7 +42,7 @@ public class User implements Serializable {
 		this.address = address;
 	}
 
-	public User(String firstName, String lastName, String username,String email, String address, String password, boolean isNew) {
+	public User(String firstName, String lastName, String username, String email, String password, boolean isNew) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;

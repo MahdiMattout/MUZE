@@ -112,7 +112,7 @@ public class SignupPanel extends JPanel {
 				String lastName = lastNamePanel.getTxtField().getText();
 				String email = lastNamePanel.getTxtField().getText();
 				String address = lastNamePanel.getTxtField().getText();
-				User user = new User(firstName, lastName, username,password, email, address, true);
+				User user = new User(firstName, lastName, username, email, password, true);
 				try {
 					user = UserEchoClient.createUser(user);
 

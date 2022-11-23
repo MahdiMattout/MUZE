@@ -13,18 +13,18 @@ public class User implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@DatabaseField(generatedId = true)
-	public static int id;
+	public int id;
 	@DatabaseField
-	public static String firstName;
+	public String firstName;
 	@DatabaseField
-	public static String lastName;
+	public String lastName;
 	@DatabaseField
-	public static String username;
+	public String username;
 	@DatabaseField
-	public static String password;
+	public String password;
 	@DatabaseField
-	public static String email;
-	private static String address;
+	public String email;
+	private String address;
 	@DatabaseField
 	public boolean isNew = false;
 	
@@ -93,7 +93,7 @@ public class User implements Serializable {
 	}
 
 	public String getLastName() {
-		return lastName;
+		return this.lastName;
 	}
 
 	public void setLastName(String lastName) {
@@ -101,7 +101,7 @@ public class User implements Serializable {
 	}
 
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public void setUsername(String username) {
@@ -124,7 +124,7 @@ public class User implements Serializable {
 		this.address = address;
 	}
 	
-	public static String getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
@@ -133,7 +133,7 @@ public class User implements Serializable {
 	}
 
 	public boolean isNew() {
-		return isNew;
+		return this.isNew;
 	}
 
 	public void setNew(boolean isNew) {
@@ -141,7 +141,7 @@ public class User implements Serializable {
 	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {

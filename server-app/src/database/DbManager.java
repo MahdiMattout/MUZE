@@ -39,7 +39,7 @@ public class DbManager {
 				projectDao = DaoManager.createDao(connection, Project.class);
 				TableUtils.createTableIfNotExists(connection, User.class);
 				TableUtils.createTableIfNotExists(connection, Song.class);
-				TableUtils.createTable(projectDao);
+				TableUtils.createTableIfNotExists(connection, Project.class);
 				return connection;
 		}
 		return null;
