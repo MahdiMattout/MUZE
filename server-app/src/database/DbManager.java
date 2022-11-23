@@ -6,6 +6,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.mysql.cj.jdbc.JdbcConnection;
 
 import entity.Project;
 import entity.Song;
@@ -39,7 +40,7 @@ public class DbManager {
 				projectDao = DaoManager.createDao(connection, Project.class);
 				TableUtils.createTableIfNotExists(connection, User.class);
 				TableUtils.createTableIfNotExists(connection, Song.class);
-				TableUtils.createTable(projectDao);
+				TableUtils.createTableIfNotExists(connection, Project.class);
 				return connection;
 		}
 		return null;

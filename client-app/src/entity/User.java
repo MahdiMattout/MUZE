@@ -2,6 +2,8 @@ package entity;
 
 import java.io.Serializable;
 
+import javax.swing.DefaultListModel;
+
 public class User implements Serializable {
 
 	/**
@@ -13,43 +15,45 @@ public class User implements Serializable {
 	private String lastName;
 	private String username;
 	private String password;
-	private String email;
-	private String address;
+	private String emailAddress;
+	DefaultListModel<String> songsList = new DefaultListModel<>(); // needs to be updated on uploads
+	//private String song;
 	private boolean isNew = false;
 
 	public User(int id, String firstName, String lastName, String username, 
-			String email, String address, String password, 
-			boolean isNew) {
+			String emailAddress, String password, boolean isNew, String song) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
-		this.email = email;
-		this.address = address;
-		// list of downloaded songs
+		this.emailAddress = emailAddress;
+		// list of downloaded songs: updates on uploads
+		//this.song = song;
+		this.songsList.add(0, song);
 		this.isNew = isNew;
 	}
 
-	public User(String firstName, String lastName, String username, String email, String address, String password) {
+	public User(String firstName, String lastName, String username, String emailAddress,String password) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
-		this.email = email;
-		this.address = address;
+		this.emailAddress = emailAddress;
 	}
 
-	public User(String firstName, String lastName, String username,String email, String address, String password, boolean isNew) {
+	public User(String firstName, String lastName, String username,String emailAddress, String password, boolean isNew, String song) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
-		this.email = email;
-		this.address = address;
+		this.emailAddress = emailAddress;
+		// list of downloaded songs: updates on uploads
+		//this.song = song;
+		this.songsList.add(0, song);
 		this.isNew = isNew;
 	}
 
@@ -89,19 +93,15 @@ public class User implements Serializable {
 	}
 
 	public String getEmail() {
-		return email;
+		return emailAddress;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmail(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 	
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
+	public DefaultListModel<String> getSongsList() {
+		return songsList;
 	}
 	
 	public String getPassword() {
@@ -111,7 +111,6 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 	public boolean isNew() {
 		return isNew;
 	}

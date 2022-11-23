@@ -26,7 +26,7 @@ public class UsersQuery extends DbManager {
 			List<User> users = where.and(where.eq(User.username ,username), where.eq(username, password)).query();
 			if (users.size() == 1) {
 				return users.get(0);
-//				return new User(id, firstname, lastname, username, email, address, password, false);
+//				return new User(id, firstname, lastname, username, emailAddress, password, false, song);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -64,8 +64,9 @@ public class UsersQuery extends DbManager {
 					+ " lastname," 
 					+ " username ,"
 					+ " email ,"
-					+ " address ,"
-					+ " password ) VALUES ( {0}, {1}, {2}, {3} , {4})", user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(),user.getPassword());
+					+ " password ,"
+					+ " song ) VALUES ( {0}, {1}, {2}, {3} , {4})", user.getFirstName(), user.getLastName(), 
+					user.getUsername(), user.getEmail(),user.getPassword(), user.getSongsList());
 			System.out.println(query);
 			establishConnection();
 			queryBuilder = DbManager.getUserDao().queryBuilder();

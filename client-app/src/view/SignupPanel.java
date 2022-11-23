@@ -35,9 +35,7 @@ public class SignupPanel extends JPanel {
 	
 	private FieldPanel lastNamePanel = new FieldPanel("/resources/name.png", "last name");
 	
-	private FieldPanel emailPanel = new FieldPanel("/resources/account.png", "email");
-
-	private FieldPanel addressPanel = new FieldPanel("/resources/account.png", "address");
+	private FieldPanel emailAddressPanel = new FieldPanel("/resources/account.png", "email");
 	
 	private JLabel uploadLabel = new JLabel("Upload file");
 	
@@ -70,8 +68,7 @@ public class SignupPanel extends JPanel {
 						.addComponent(firstNamePanel, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
 						.addComponent(lastNamePanel, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
 						.addComponent(usernamePanel, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
-						.addComponent(emailPanel, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
-						.addComponent(addressPanel, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+						.addComponent(emailAddressPanel, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
 						.addComponent(passwordPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
 						.addComponent(uploadLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
 						.addComponent(saveLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE))
@@ -84,10 +81,7 @@ public class SignupPanel extends JPanel {
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(usernamePanel, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(emailPanel, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(addressPanel, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(emailAddressPanel, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
 						.addComponent(passwordPanel, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(uploadLabel, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
@@ -110,9 +104,12 @@ public class SignupPanel extends JPanel {
 				String password = passwordPanel.getTxtField().getText();
 				String firstName = firstNamePanel.getTxtField().getText();
 				String lastName = lastNamePanel.getTxtField().getText();
-				String email = lastNamePanel.getTxtField().getText();
-				String address = lastNamePanel.getTxtField().getText();
-				User user = new User(firstName, lastName, username,password, email, address, true);
+				String emailAddress = emailAddressPanel.getTxtField().getText();
+				// need to input the song and save it here: and change type from string here and in User.java
+				String song = "";
+				
+				
+				User user = new User(firstName, lastName, username, emailAddress, password,true, song);
 				try {
 					user = UserEchoClient.createUser(user);
 
