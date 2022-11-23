@@ -13,15 +13,15 @@ public class Project implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@DatabaseField(id = true)
-	public static int id;
+	public int id;
 	@DatabaseField
-	public static String title;
+	public String title;
 	@DatabaseField
-	public static String content;
+	public String content;
 	@DatabaseField
-	public static boolean isNew = false;
+	public boolean isNew = false;
 	@DatabaseField
-	public static int userId;
+	public int userId;
 
 	public Project() {
 		super();
@@ -58,7 +58,7 @@ public class Project implements Serializable {
 	}
 
 	public boolean isNew() {
-		return isNew;
+		return this.isNew;
 	}
 
 	public void setNew(boolean isNew) {
@@ -66,7 +66,7 @@ public class Project implements Serializable {
 	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {
@@ -74,7 +74,7 @@ public class Project implements Serializable {
 	}
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public void setTitle(String title) {
@@ -82,7 +82,7 @@ public class Project implements Serializable {
 	}
 
 	public String getContent() {
-		return content;
+		return this.content;
 	}
 
 	public void setContent(String content) {
@@ -90,7 +90,7 @@ public class Project implements Serializable {
 	}
 
 	public int getUserId() {
-		return userId;
+		return this.userId;
 	}
 
 	public void setUserId(int userId) {

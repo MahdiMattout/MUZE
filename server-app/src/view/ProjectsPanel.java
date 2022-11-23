@@ -50,7 +50,7 @@ public class ProjectsPanel extends JPanel {
 
 		projectLabel.setIcon(new ImageIcon(ProjectsPanel.class.getResource("/resources/contract (1).png")));
 
-		JLabel lblProjects = new JLabel("Projects");
+		JLabel lblProjects = new JLabel("MUZE");
 		lblProjects.setHorizontalAlignment(SwingConstants.CENTER);
 		lblProjects.setForeground(Color.BLACK);
 		lblProjects.setFont(new Font("Andalus", Font.BOLD, 40));
