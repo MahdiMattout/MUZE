@@ -51,7 +51,7 @@ public class ProjectPanel extends JPanel {
 		textPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
 		textPanel.setBackground(Color.WHITE);
 
-		ImageIcon imageIcon = new ImageIcon(ProjectPanel.class.getResource("/resources/doc.png"));
+		ImageIcon imageIcon = new ImageIcon(ProjectPanel.class.getResource("/resources/doc.jpg"));
 
 		projectLabel.setIcon(new ImageIcon(imageIcon.getImage().getScaledInstance(70, 75, Image.SCALE_DEFAULT)));
 

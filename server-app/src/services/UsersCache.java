@@ -51,11 +51,12 @@ public class UsersCache {
 				init();
 			}
 			// https://javatutorial.net/java-iterate-hashmap-example
-			for (Map.Entry<Integer, User> entry : usersMap.entrySet()) {
-				System.out.println(entry.getKey() + " = " + entry.getValue());
-				if (entry.getValue().getUsername().equals(username) && entry.getValue().getPassword().equals(password))
-					return entry.getValue();
-			}
+//			for (Map.Entry<Integer, User> entry : usersMap.entrySet()) {
+//				System.out.println(entry.getKey() + " = " + entry.getValue());
+//				if (entry.getValue().getUsername().equals(username) && entry.getValue().getPassword().equals(password))
+//					return entry.getValue();
+//			}
+			return UsersQuery.findUserByUsernameAndPassword(username, password);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -74,11 +75,12 @@ public class UsersCache {
 				init();
 			}
 			// https://javatutorial.net/java-iterate-hashmap-example
-			for (Map.Entry<Integer, User> entry : usersMap.entrySet()) {
-				System.out.println(entry.getKey() + " = " + entry.getValue());
-				if (entry.getValue().getUsername().equals(username))
-					return entry.getValue();
-			}
+//			for (Map.Entry<Integer, User> entry : usersMap.entrySet()) {
+//				System.out.println(entry.getKey() + " = " + entry.getValue());
+//				if (entry.getValue().getUsername().equals(username))
+//					return entry.getValue();
+//			}
+			return UsersQuery.findUserByUsername(username);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

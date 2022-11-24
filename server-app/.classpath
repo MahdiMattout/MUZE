@@ -7,9 +7,7 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/lib"/>
-	<classpathentry kind="lib" path="src/resources/mysql-connector-java-8.0.11.jar"/>
-	<classpathentry kind="lib" path="src/uitls/mysql-connector-java-8.0.11.jar"/>
-	<classpathentry kind="lib" path="/Users/user/Downloads/ormlite-jdbc-6.1.jar"/>
-	<classpathentry kind="lib" path="/Users/user/Downloads/sqlite-jdbc-3.39.4.1.jar"/>
+	<classpathentry kind="lib" path="/Users/mahdimattout/Downloads/sqlite-jdbc-3.39.4.1.jar"/>
+	<classpathentry kind="lib" path="/Users/mahdimattout/Downloads/ormlite-jdbc-6.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

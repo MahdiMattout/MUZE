@@ -1,4 +1,4 @@
-package cs_database;
+package view;
 import java.awt.EventQueue;
 
 import javax.swing.*;
@@ -29,7 +29,7 @@ import javax.swing.DropMode;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 
-public class MainWindow {
+public class Proj_P {
 
 	private JFrame frmDatabase;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
@@ -53,7 +53,7 @@ public class MainWindow {
 	 * @throws SQLException 
 	 */
 	
-	public MainWindow(String theUser, Connection connection) throws SQLException {
+	public Proj_P(String theUser, Connection connection) throws SQLException {
 		username = theUser;
 		this.connection = connection;
 		userID = getUserID(username);

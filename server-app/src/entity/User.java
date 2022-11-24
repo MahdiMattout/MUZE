@@ -2,6 +2,8 @@ package entity;
 
 import java.io.Serializable;
 
+import javax.swing.DefaultListModel;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -13,28 +15,43 @@ public class User implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@DatabaseField(generatedId = true)
-	public static int id;
+	public int id;
 	@DatabaseField
-	public static String firstName;
+	public String firstName;
 	@DatabaseField
-	public static String lastName;
+	public String lastName;
 	@DatabaseField
-	public static String username;
+	public String username;
 	@DatabaseField
-	public static String password;
+	public String password;
 	@DatabaseField
-	public static String email;
-	private static String address;
+	public String emailAddress;
 	@DatabaseField
 	public boolean isNew = false;
+	DefaultListModel<String> songsList = new DefaultListModel<>(); // needs to be updated on uploads
 	
 	public User() {
 		this.firstName = "";
 		this.lastName = "";
 		this.username = "";
 		this.password = "";
-		this.email = "";
+		this.emailAddress = "";
 		this.isNew = false;
+	}
+	
+	public User(int id, String firstName, String lastName, String username, 
+			String emailAddress, String password, boolean isNew, String song) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.emailAddress = emailAddress;
+		// list of downloaded songs: updates on uploads
+		//this.song = song;
+		this.songsList.add(0, song);
+		this.isNew = isNew;
 	}
 
 	public User(int id, String firstName, String lastName, String username, 
@@ -46,8 +63,7 @@ public class User implements Serializable {
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
-		this.email = email;
-		this.address = address;
+		this.emailAddress = email;
 		// list of downloaded songs
 		this.isNew = isNew;
 	}
@@ -58,8 +74,7 @@ public class User implements Serializable {
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
-		this.email = email;
-		this.address = address;
+		this.emailAddress = email;
 	}
 
 	public User(String firstName, String lastName, String username,String email, String address, String password, boolean isNew) {
@@ -68,8 +83,7 @@ public class User implements Serializable {
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
-		this.email = email;
-		this.address = address;
+		this.emailAddress = email;
 		this.isNew = isNew;
 	}
 
@@ -93,7 +107,7 @@ public class User implements Serializable {
 	}
 
 	public String getLastName() {
-		return lastName;
+		return this.lastName;
 	}
 
 	public void setLastName(String lastName) {
@@ -101,7 +115,7 @@ public class User implements Serializable {
 	}
 
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public void setUsername(String username) {
@@ -109,22 +123,14 @@ public class User implements Serializable {
 	}
 
 	public String getEmail() {
-		return email;
+		return emailAddress;
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.emailAddress = email;
 	}
 	
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	
-	public static String getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
@@ -133,7 +139,7 @@ public class User implements Serializable {
 	}
 
 	public boolean isNew() {
-		return isNew;
+		return this.isNew;
 	}
 
 	public void setNew(boolean isNew) {
@@ -141,11 +147,15 @@ public class User implements Serializable {
 	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public DefaultListModel<String> getSongsList() {
+		return songsList;
 	}
 
 }

@@ -65,7 +65,7 @@ public class ProjectsQuery extends DbManager {
 	}
 
 	public static void createProject(Project project) throws SQLException {
-		String query = MessageFormat.format("INSERT INTO project (" + " title ," + " content," + " user_id ) VALUES ( {0}, {1}, {2} )", project.getTitle(), project.getContent(), project.getUserId());
+		String query = MessageFormat.format("INSERT INTO Projects (" + " title ," + " content," + " user_id ) VALUES ( {0}, {1}, {2} )", project.getTitle(), project.getContent(), project.getUserId());
 		System.out.println(query);
 		establishConnection();
 		queryBuilder = DbManager.getProjectDao().queryBuilder();

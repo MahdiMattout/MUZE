@@ -101,6 +101,7 @@ public class ProjectEchoServer extends Thread {
 			}
 		}
 
+		@SuppressWarnings("null")
 		private Project handleRequest() throws IOException, ClassNotFoundException {
 			Project project = null;
 			// getting object input stream from client
@@ -118,7 +119,7 @@ public class ProjectEchoServer extends Thread {
 				}
 			} else {
 				// search if project exits
-				project = ProjectsQuery.findProjectByTitleAndUser(project.getTitle(), project.getUserId());
+				project = ProjectsQuery.findProjectByTitleAndUser(receivedProject.getTitle(), receivedProject.getUserId());
 			}
 			System.out.println("server" + receivedProject);
 			// ois.close();

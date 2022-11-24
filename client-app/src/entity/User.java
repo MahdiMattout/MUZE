@@ -45,15 +45,24 @@ public class User implements Serializable {
 	}
 
 	public User(String firstName, String lastName, String username,String emailAddress, String password, boolean isNew, String song) {
+	super();
+	this.firstName = firstName;
+	this.lastName = lastName;
+	this.username = username;
+	this.password = password;
+	this.emailAddress = emailAddress;
+	// list of downloaded songs: updates on uploads
+	//this.song = song;
+	this.songsList.add(0, song);
+	this.isNew = isNew;
+}
+	public User(String firstName, String lastName, String username, String emailAddress, String password, boolean isNew) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
 		this.emailAddress = emailAddress;
-		// list of downloaded songs: updates on uploads
-		//this.song = song;
-		this.songsList.add(0, song);
 		this.isNew = isNew;
 	}
 
