@@ -5,8 +5,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.Socket;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -18,15 +22,16 @@ import javax.swing.SwingConstants;
 
 
 import controller.MainFrameController;
+import entity.Song;
 import entity.User;
+import services.ClientFileChooser;
 import services.Singleton;
 import services.UserEchoClient;
+import utils.Constants;
 
 public class SignupPanel extends JPanel {
 
-	/**
-	 * Create the panel.
-	 */
+	public ClientFileChooser chooser = new ClientFileChooser();
 	private FieldPanel usernamePanel = new FieldPanel("/resources/account.png", "username");
 
 	private PasswordPanel passwordPanel = new PasswordPanel("/resources/lock.png", "password");
@@ -36,8 +41,6 @@ public class SignupPanel extends JPanel {
 	private FieldPanel lastNamePanel = new FieldPanel("/resources/name.png", "last name");
 	
 	private FieldPanel emailPanel = new FieldPanel("/resources/account.png", "email");
-
-	private FieldPanel addressPanel = new FieldPanel("/resources/account.png", "address");
 	
 	private JLabel uploadLabel = new JLabel("Upload file");
 	
@@ -71,7 +74,6 @@ public class SignupPanel extends JPanel {
 						.addComponent(lastNamePanel, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
 						.addComponent(usernamePanel, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
 						.addComponent(emailPanel, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
-						.addComponent(addressPanel, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
 						.addComponent(passwordPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
 						.addComponent(uploadLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
 						.addComponent(saveLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE))
@@ -86,7 +88,6 @@ public class SignupPanel extends JPanel {
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(emailPanel, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(addressPanel, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(passwordPanel, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
@@ -111,7 +112,23 @@ public class SignupPanel extends JPanel {
 				String firstName = firstNamePanel.getTxtField().getText();
 				String lastName = lastNamePanel.getTxtField().getText();
 				String email = lastNamePanel.getTxtField().getText();
-				String address = lastNamePanel.getTxtField().getText();
+				try {
+					FileInputStream fis = new FileInputStream(chooser.getFileToSend()[0].getAbsolutePath());
+					Song song = new Song(chooser.getFileToSend()[0].getName(),chooser.getFileToSend()[0].getAbsolutePath());
+					DataOutputStream audio = new DataOutputStream(new Socket(Constants.SERVER_IP, Constants.USER_PORT).getOutputStream());
+					String fileName = chooser.getFileToSend()[0].getName();
+					byte[] fileBytes = fileName.getBytes();
+					byte[] fileContentBytes = new byte[(int) chooser.getFileToSend()[0].length()];
+					fis.read(fileContentBytes);
+					audio.writeInt(fileBytes.length);
+					audio.write(fileBytes);
+					
+					audio.writeInt(fileContentBytes.length);
+					audio.write(fileContentBytes);
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				User user = new User(firstName, lastName, username, email, password, true);
 				try {
 					user = UserEchoClient.createUser(user);
@@ -132,13 +149,7 @@ public class SignupPanel extends JPanel {
 		uploadLabel.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					JFileChooser file_upload = new JFileChooser();
-					int res = file_upload.showOpenDialog(null);
-					int save = file_upload.showSaveDialog(null);
-					
-					if (save == JFileChooser.APPROVE_OPTION) {
-						File file_path = new File(file_upload.getSelectedFile().getAbsolutePath());
-					}
+					chooser.ChooseFile();
 				}
 			});
 	}
