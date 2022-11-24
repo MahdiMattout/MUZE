@@ -65,11 +65,6 @@ public class UserEchoClient {
 		}
 
 	}
-	
-	public static void uploadSong(Song song) {
-		establishConnection();
-		DataOutputStream dos = new DataOutputStream(clientSocket.getOutputStream());
-	}
 
 	public static void main(String[] args) {
 
