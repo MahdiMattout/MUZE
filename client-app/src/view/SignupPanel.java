@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.GroupLayout;
@@ -21,6 +20,9 @@ import javax.swing.SwingConstants;
 
 import controller.MainFrameController;
 import entity.User;
+import kuusisto.tinysound.Music;
+import kuusisto.tinysound.Sound;
+import kuusisto.tinysound.TinySound;
 import services.Singleton;
 import services.UserEchoClient;
 
@@ -29,6 +31,7 @@ public class SignupPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
+	
 	private FieldPanel usernamePanel = new FieldPanel("/resources/account.png", "username");
 
 	private PasswordPanel passwordPanel = new PasswordPanel("/resources/lock.png", "password");
@@ -37,13 +40,17 @@ public class SignupPanel extends JPanel {
 	
 	private FieldPanel lastNamePanel = new FieldPanel("/resources/name.png", "last name");
 	
-	private FieldPanel emailAddressPanel = new FieldPanel("/resources/account.png", "email");
+	private FieldPanel SongNamePanel = new FieldPanel("/resources/name.png", "song name");
+	
+	private FieldPanel emailAddressPanel = new FieldPanel("/resources/account.png", "email (e.g. yyy@gmail.com)");
 	
 	private JLabel uploadLabel = new JLabel("Upload file");
 	
 	private JLabel saveLabel = new JLabel("Sign Up");
 
 	private MainFrameController frameController;
+	
+	private File songFile;
 
 	public SignupPanel(MainFrameController frameController) {
 		this.frameController = frameController;
@@ -73,6 +80,7 @@ public class SignupPanel extends JPanel {
 						.addComponent(emailAddressPanel, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
 						.addComponent(passwordPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
 						.addComponent(uploadLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+						.addComponent(SongNamePanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
 						.addComponent(saveLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE))
 				.addContainerGap()));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -87,6 +95,8 @@ public class SignupPanel extends JPanel {
 						.addComponent(passwordPanel, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(uploadLabel, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(46, Short.MAX_VALUE)
+						.addComponent(SongNamePanel, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(46, Short.MAX_VALUE)
 						.addComponent(saveLabel, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(46, Short.MAX_VALUE)));
@@ -107,11 +117,10 @@ public class SignupPanel extends JPanel {
 				String firstName = firstNamePanel.getTxtField().getText();
 				String lastName = lastNamePanel.getTxtField().getText();
 				String emailAddress = emailAddressPanel.getTxtField().getText();
+				String song = SongNamePanel.getTxtField().getText();
 				// need to input the song and save it here: and change type from string here and in User.java
-				String song = "";
-				
-				
-				User user = new User(firstName, lastName, username, emailAddress, password,true, song);
+								
+				User user = new User(firstName, lastName, username, emailAddress, password,true, song, songFile);
 				try {
 					user = UserEchoClient.createUser(user);
 
@@ -135,20 +144,31 @@ public class SignupPanel extends JPanel {
 					int res = file_upload.showOpenDialog(null);
 					int save = file_upload.showSaveDialog(null);
 					
+					String songName = SongNamePanel.getTxtField().getText();
+
+					
 					if (save == JFileChooser.APPROVE_OPTION) {
 						//Creating a File object
-					      File file = new File(file_upload.getSelectedFile().getAbsolutePath());
-					      //Creating a FileInputStream object
-					      FileInputStream inputStream;
+						songFile = new File(file_upload.getSelectedFile().getAbsolutePath());
+					      
+					 
 						try {
-							inputStream = new FileInputStream(file);
-							  //Creating a byte array
-						      byte bytes[] = new byte[(int) file.length()];
-						      //Reading data into the byte array
-						      int numOfBytes = inputStream.read(bytes);
-						      System.out.println("Successful upload.");
+
+						      System.out.println("Successful upload of: " + songFile);
+						      System.out.println("Given song name: " + songName);
+						      
+						      System.out.println("playing song without repeat.");
+						
+						  	    //initialize TinySound
+								TinySound.init();
+		
+								//load with Files, URLs or InputStreams
+								Music song = TinySound.loadMusic(songFile);
+								//start playing the music on loop
+								song.play(false);
+
 							
-						} catch (IOException e1) {
+						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}

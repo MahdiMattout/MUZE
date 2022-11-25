@@ -11,8 +11,6 @@ import entity.User;
 import utils.Constants;
 
 public class UserEchoClient {
-	// http://www.jgyan.com/networking/how%20to%20send%20object%20over%20socket%20in%20java.php
-	// https://www.baeldung.com/a-guide-to-java-sockets
 
 	private static Socket clientSocket;
 	private static ObjectOutputStream os;
@@ -34,8 +32,8 @@ public class UserEchoClient {
 		User receivedUser = (User) ois.readObject();
 		System.out.println("---------------------------- received user id" + receivedUser.getId()
 				+ "--------------------------------");
-//		if (receivedUser != null && receivedUser.getId() > 0)
-//			stopConnection();
+		//		if (receivedUser != null && receivedUser.getId() > 0)
+		//			stopConnection();
 		return receivedUser;
 	}
 
@@ -47,8 +45,8 @@ public class UserEchoClient {
 		User receivedUser = (User) ois.readObject();
 		System.out.println("--------------------------- received user id " + receivedUser
 				+ " -------------------------------------");
-//		if (receivedUser != null && receivedUser.getId() > 0)
-//			stopConnection();
+		//		if (receivedUser != null && receivedUser.getId() > 0)
+		//			stopConnection();
 		return receivedUser;
 	}
 
