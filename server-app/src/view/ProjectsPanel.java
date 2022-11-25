@@ -77,6 +77,7 @@ public class ProjectsPanel extends JPanel {
 		JMenuItem createPlaylistOption = new JMenuItem("Play");
 		JMenuItem deletePlaylistOption = new JMenuItem("Download");
 		
+
 		rdbtnUser.setForeground(Color.GREEN);
 		rdbtnUser.setOpaque(true);
 		rdbtnUser.setHorizontalAlignment(SwingConstants.CENTER);

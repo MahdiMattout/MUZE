@@ -4,8 +4,6 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-
-import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
@@ -77,6 +75,7 @@ public class UsersQuery extends DbManager {
 	public static void createUser(User user) throws Exception {
 		if (UsersCache.findUserByUsername(user.getUsername()) == null) {
 			String query = MessageFormat.format("INSERT INTO Users ("
+
 					+ "" 
 					+ " firstname, " 
 					+ " lastname, " 

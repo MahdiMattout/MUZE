@@ -21,8 +21,17 @@ public class User implements Serializable {
 	private String songName;
 	private final DefaultListModel<String> songsGivenNameList = new DefaultListModel<>(); // needs to be updated on uploads
 	private final DefaultListModel<File> songsFileList = new DefaultListModel<>(); // needs to be updated on uploads
-	//private String song;
 	private boolean isNew = false;
+
+	public User() {
+		this.firstName = "";
+		this.lastName = "";
+		this.username = "";
+		this.password = "";
+		this.emailAddress = "";
+		this.isNew = false;
+	}
+	
 
 	public User(int id, String firstName, String lastName, String username, 
 			String emailAddress, String password, boolean isNew, String song, File songFile) {
@@ -32,12 +41,14 @@ public class User implements Serializable {
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
+
 		this.emailAddress = emailAddress;
+
 		this.isNew = isNew;
 		
 		this.songName = song;
 		this.songFile = songFile;
-		
+				
 		this.songsGivenNameList.add(0, songName); // add the name of each song
 
 		this.songsFileList.add(0, songFile); // add the file of each song
@@ -56,6 +67,7 @@ public class User implements Serializable {
 		
 		this.songsGivenNameList.add(0, songName); // add the name of each song
 		this.songsFileList.add(0, songFile); // add the file of each song
+
 	}
 
 	public User(String firstName, String lastName, String username,String emailAddress, String password, boolean isNew, String song,  File songFile) {
@@ -64,7 +76,9 @@ public class User implements Serializable {
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
+
 		this.emailAddress = emailAddress;
+
 		this.isNew = isNew;
 		
 		this.songName = song;
@@ -87,8 +101,6 @@ public class User implements Serializable {
 		super();
 		this.id = id;
 	}
-	
-	
 	
 
 	public String getFirstName() {
