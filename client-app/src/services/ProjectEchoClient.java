@@ -33,7 +33,7 @@ public class ProjectEchoClient {
 		os.writeObject(project);
 		ois = new ObjectInputStream(clientSocket.getInputStream());
 		Project receivedProject = (Project) ois.readObject();
-		System.out.println("---------------------------- received project id" + receivedProject.getId()
+		System.out.println("---------------------------- received project id " + receivedProject.getId()
 				+ "--------------------------------");
 		// if (receivedUser != null && receivedUser.getId() > 0)
 		// stopConnection();

@@ -11,13 +11,15 @@ import com.mysql.cj.jdbc.JdbcConnection;
 import entity.Project;
 import entity.Song;
 import entity.User;
+import entity.User_Song;
 
 public class DbManager {
 
 	private static JdbcConnectionSource connection = null;
-	private static Dao<User, Integer> userDao = null;
-	private static Dao<Song, Integer> songDao = null;
-	private static Dao<Project, Integer> projectDao = null;
+	private static Dao<User, Integer> usesrDao = null;
+	private static Dao<Song, Integer> songsDao = null;
+	private static Dao<User_Song, Integer> user_songDao = null;
+
 	private static String url = "jdbc:sqlite:MUZE.db";
 	
 //	public static void createDataBase(Connection connection) {
@@ -35,9 +37,10 @@ public class DbManager {
 	public static JdbcConnectionSource establishConnection() throws SQLException {
 		if (connection == null) {
 				setConnection(new JdbcConnectionSource(url));
-				userDao = DaoManager.createDao(connection, User.class);
-				songDao = DaoManager.createDao(connection, Song.class);
-				projectDao = DaoManager.createDao(connection, Project.class);
+				usesrDao = DaoManager.createDao(connection, User.class);
+				songsDao = DaoManager.createDao(connection, Song.class);
+				user_songDao = DaoManager.createDao(connection, User_Song.class);
+				
 				TableUtils.createTableIfNotExists(connection, User.class);
 				TableUtils.createTableIfNotExists(connection, Song.class);
 				TableUtils.createTableIfNotExists(connection, Project.class);
@@ -55,27 +58,27 @@ public class DbManager {
 	}
 
 	public static Dao<User, Integer> getUserDao() {
-		return userDao;
+		return usesrDao;
 	}
 
 	public static void setUserDao(Dao<User, Integer> userDao) {
-		DbManager.userDao = userDao;
+		DbManager.usesrDao = userDao;
 	}
 
 	public static Dao<Song, Integer> getSongDao() {
-		return songDao;
+		return songsDao;
 	}
 
 	public static void setSongDao(Dao<Song, Integer> songDao) {
-		DbManager.songDao = songDao;
+		DbManager.songsDao = songDao;
 	}
 
-	public static Dao<Project, Integer> getProjectDao() {
-		return projectDao;
+	public static Dao<User_Song, Integer> getProjectDao() {
+		return user_songDao;
 	}
 
-	public static void setProjectDao(Dao<Project, Integer> projectDao) {
-		DbManager.projectDao = projectDao;
+	public static void setProjectDao(Dao<User_Song, Integer> user_songDao) {
+		DbManager.user_songDao = user_songDao;
 	}
 
 }

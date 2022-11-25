@@ -23,7 +23,24 @@ public class UsersQuery extends DbManager {
 			establishConnection();
 			queryBuilder = DbManager.getUserDao().queryBuilder();
 			where = queryBuilder.where();
-			List<User> users = where.and(where.eq(User.username ,username), where.eq(username, password)).query();
+			List<User> users = where.and(where.eq("username" ,username), where.eq("password", password)).query();
+			if (users.size() == 1) {
+				return users.get(0);
+//				return new User(id, firstname, lastname, username, email, address, password, false);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	//This works because usernames are unique!
+	public static User findUserByUsername(String username) {
+		try {
+			establishConnection();
+			queryBuilder = DbManager.getUserDao().queryBuilder();
+			where = queryBuilder.where();
+			List<User> users = where.eq("username" ,username).query();
 			if (users.size() == 1) {
 				return users.get(0);
 //				return new User(id, firstname, lastname, username, emailAddress, password, false, song);
@@ -59,20 +76,24 @@ public class UsersQuery extends DbManager {
 
 	public static void createUser(User user) throws Exception {
 		if (UsersCache.findUserByUsername(user.getUsername()) == null) {
-			String query = MessageFormat.format("INSERT INTO APP_USERS ("
-					+ "" + " firstname ," 
-					+ " lastname," 
-					+ " username ,"
-					+ " email ,"
-					+ " password ,"
-					+ " song ) VALUES ( {0}, {1}, {2}, {3} , {4})", user.getFirstName(), user.getLastName(), 
-					user.getUsername(), user.getEmail(),user.getPassword(), user.getSongsList());
+			String query = MessageFormat.format("INSERT INTO Users ("
+					+ "" 
+					+ " firstname, " 
+					+ " lastname, " 
+					+ " username, "
+					+ " email, "
+					+ " password, "
+					+ " song_name, "
+					+ " song_file ) VALUES ( {0}, {1}, {2}, {3} , {4}, {5}, {6})", user.getFirstName(), user.getLastName(), 
+					user.getUsername(), user.getEmail(),user.getPassword(), user.getSongName(), user.getSongFile());
+
 			System.out.println(query);
 			establishConnection();
 			queryBuilder = DbManager.getUserDao().queryBuilder();
 			where = queryBuilder.where();
 			// execute the prepared statement insert
 			DbManager.getUserDao().create(user);
+			return;
 		}
 		throw new IllegalArgumentException("USER USERNAME IS UNIQUE. CREATION FAILED !");
 	}

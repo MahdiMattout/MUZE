@@ -30,7 +30,7 @@ public class UserEchoClient {
 		os.writeObject(user);
 		ois = new ObjectInputStream(clientSocket.getInputStream());
 		User receivedUser = (User) ois.readObject();
-		System.out.println("---------------------------- received user id" + receivedUser.getId()
+		System.out.println("---------------------------- received user id " + receivedUser.getId()
 				+ "--------------------------------");
 		//		if (receivedUser != null && receivedUser.getId() > 0)
 		//			stopConnection();
@@ -43,7 +43,7 @@ public class UserEchoClient {
 		os.writeObject(user);
 		ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
 		User receivedUser = (User) ois.readObject();
-		System.out.println("--------------------------- received user id " + receivedUser
+		System.out.println("--------------------------- created user id " + receivedUser.getId()
 				+ " -------------------------------------");
 		//		if (receivedUser != null && receivedUser.getId() > 0)
 		//			stopConnection();
