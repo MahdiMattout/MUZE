@@ -14,6 +14,7 @@ import com.j256.ormlite.stmt.Where;
 
 import entity.Project;
 import entity.User;
+import entity.User_Song;
 import services.UsersCache;
 
 public class ProjectsQuery extends DbManager {
@@ -64,7 +65,7 @@ public class ProjectsQuery extends DbManager {
 		return arr;
 	}
 
-	public static void createProject(Project project) throws SQLException {
+	public static void createProject(User_Song user_Song_Project) throws SQLException {
 		String query = MessageFormat.format("INSERT INTO Projects (" + " title ," + " content," + " user_id ) VALUES ( {0}, {1}, {2} )", project.getTitle(), project.getContent(), project.getUserId());
 		System.out.println(query);
 		establishConnection();
