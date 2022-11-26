@@ -21,7 +21,7 @@ public class UsersQuery extends DbManager {
 			establishConnection();
 			queryBuilder = DbManager.getUserDao().queryBuilder();
 			where = queryBuilder.where();
-			List<User> users = where.and(where.eq("id" ,id)).query();
+			List<User> users = where.eq("id" ,id).query();
 			if (users.size() == 1) {
 				return users.get(0);
 			}
@@ -94,6 +94,22 @@ public class UsersQuery extends DbManager {
 			return;
 		}
 		throw new IllegalArgumentException("USER USERNAME IS UNIQUE. CREATION FAILED !");
+	}
+
+	public static User findUserByUsernameAndPassword(String username, String password) {
+		try {
+			establishConnection();
+			queryBuilder = DbManager.getUserDao().queryBuilder();
+			where = queryBuilder.where();
+			List<User> users = where.and(where.eq("username" ,username), where.eq("password",  password)).query();
+			if (users.size() == 1) {
+				return users.get(0);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 

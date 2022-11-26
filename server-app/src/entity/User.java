@@ -46,12 +46,13 @@ public class User implements Serializable {
 	private final DefaultListModel<File> songsFileList = new DefaultListModel<>(); // needs to be updated on uploads
 		
 	public User() {
-		this.firstName = "";
-		this.lastName = "";
-		this.username = "";
-		this.password = "";
-		this.emailAddress = "";
-		this.isNew = false;
+//		this.firstName = "";
+//		this.lastName = "";
+//		this.username = "";
+//		this.password = "";
+//		this.emailAddress = "";
+//		this.isNew = false;
+		super();
 	}
 	
 
@@ -161,7 +162,7 @@ public class User implements Serializable {
 
 	public void setEmail(String emailAddress) {
 		this.emailAddress = emailAddress;
-
+	}
 	
 	public String getPassword() {
 		return password;
@@ -218,8 +219,8 @@ public class User implements Serializable {
 		this.songFileString = songFileString;
 	}
 
-	public DefaultListModel<String> getSongsList() {
-		return songsList;
+	public DefaultListModel<File> getSongsList() {
+		return songsFileList;
 	}
 
 

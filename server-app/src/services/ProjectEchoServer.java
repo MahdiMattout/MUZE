@@ -118,7 +118,7 @@ public class ProjectEchoServer extends Thread {
 				}
 			} else {
 				// search if project exits
-				project = ProjectsQuery.findProjectByTitleAndUser(receivedProject.getTitle(), receivedProject.getUserId());
+				project = ProjectsQuery.findProjectByUploader_SongName( receivedProject.getSongName(), receivedProject.getUploaderName());
 			}
 			System.out.println("server" + receivedProject);
 			// ois.close();
@@ -128,7 +128,7 @@ public class ProjectEchoServer extends Thread {
 
 		private Project createProject(Project project) throws InterruptedException, SQLException {
 			ProjectsQuery.createProject(project);
-			return ProjectsQuery.findProjectByTitleAndUser(project.getTitle(), project.getUserId());
+			return ProjectsQuery.findProjectBySongId_UserId(project.getSongId(), project.getUserId());
 		}
 
 		private void respond(Project project) throws IOException {

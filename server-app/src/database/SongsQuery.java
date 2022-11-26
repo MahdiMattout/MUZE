@@ -10,7 +10,9 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 
+import entity.Song;
 import entity.User;
+import services.SongsCache;
 import services.UsersCache;
 
 public class SongsQuery  extends DbManager {
@@ -26,9 +28,9 @@ public class SongsQuery  extends DbManager {
 		public static Song findSongByID(int id) {
 			try {
 				establishConnection();
-				queryBuilder = DbManager.getUserDao().queryBuilder();
+				queryBuilder = DbManager.getSongDao().queryBuilder();
 				where = queryBuilder.where();
-				List<Song> songs = where.and(where.eq("id", id)).query();
+				List<Song> songs = where.eq("id", id).query();
 				if (songs.size() == 1) {
 					return songs.get(0);
 				}
@@ -42,9 +44,9 @@ public class SongsQuery  extends DbManager {
 		public static Song findSongByIDAndName(int id, String song_name) {
 			try {
 				establishConnection();
-				queryBuilder = DbManager.getUserDao().queryBuilder();
+				queryBuilder = DbManager.getSongDao().queryBuilder();
 				where = queryBuilder.where();
-				List<Song> songs = where.and(where.eq("id", id), where.eq("song_name", song_name),).query();
+				List<Song> songs = where.and(where.eq("id", id), where.eq("song_name", song_name)).query();
 				if (songs.size() == 1) {
 					return songs.get(0);
 				}
@@ -58,7 +60,7 @@ public class SongsQuery  extends DbManager {
 		public static Song findSongByUploaderIdAndName(int uploader_id, String song_name) {
 			try {
 				establishConnection();
-				queryBuilder = DbManager.getUserDao().queryBuilder();
+				queryBuilder = DbManager.getSongDao().queryBuilder();
 				where = queryBuilder.where();
 				List<Song> songs = where.and(where.eq("uploader_id", uploader_id), where.eq("song_name", song_name)).query();
 				if (songs.size() == 1) {
@@ -74,9 +76,9 @@ public class SongsQuery  extends DbManager {
 		public static Song findSongByPath( String song_filePath) {
 			try {
 				establishConnection();
-				queryBuilder = DbManager.getUserDao().queryBuilder();
+				queryBuilder = DbManager.getSongDao().queryBuilder();
 				where = queryBuilder.where();
-				List<Song> songs = where.and(where.eq("song_filePath", song_filePath)).query();
+				List<Song> songs = where.eq("song_filePath", song_filePath).query();
 				if (songs.size() == 1) {
 					return songs.get(0);
 				}
@@ -92,13 +94,12 @@ public class SongsQuery  extends DbManager {
 			ConcurrentHashMap<Integer, Song> songsMap = new ConcurrentHashMap<Integer, Song>();
 			try {
 				establishConnection();
-				queryBuilder = DbManager.getUserDao().queryBuilder();
+				queryBuilder = DbManager.getSongDao().queryBuilder();
 				where = queryBuilder.where();
 				
 				List<Song> songs = DbManager.getSongDao().queryForAll();
 				for (int i = 0; i < songs.size(); i++){
-					Song song = users.get(i);
-					song.setNew(false);
+					Song song = songs.get(i);
 					songsMap.put(song.getId(), song);
 
 				}
@@ -118,10 +119,10 @@ public class SongsQuery  extends DbManager {
 
 				System.out.println(query);
 				establishConnection();
-				queryBuilder = DbManager.getUserDao().queryBuilder();
+				queryBuilder = DbManager.getSongDao().queryBuilder();
 				where = queryBuilder.where();
 				// execute the prepared statement insert
-				DbManager.getUserDao().create(song);
+				DbManager.getSongDao().create(song);
 				return;
 			}
 			throw new IllegalArgumentException("Song path IS UNIQUE. CREATION FAILED !");

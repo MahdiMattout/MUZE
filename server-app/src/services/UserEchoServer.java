@@ -59,6 +59,7 @@ public class UserEchoServer extends Thread {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static void closeConnection() {
 		try {
 			clientSocket.close();

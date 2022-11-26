@@ -1,3 +1,4 @@
+package view;
 //<<<<<<< HEAD
 ////package cs_database;
 ////import java.awt.EventQueue;

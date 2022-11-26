@@ -167,7 +167,7 @@ public class SignupPanel extends JPanel {
 								//load with Files, URLs or InputStreams
 								Music song = TinySound.loadMusic(songFile);
 								//start playing the music on loop
-								song.play(false);
+								//song.play(false);
 
 							
 						} catch (Exception e1) {

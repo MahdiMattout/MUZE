@@ -23,6 +23,11 @@ public class Song implements Serializable{
 	@DatabaseField
 	private int uploader_id; // id of the user who added this song
 	
+	public Song() {
+		super();
+	}
+	
+	
 	public Song(int id, int uploader_id, String name, String path) {
 		super();
 		this.id = id;
@@ -56,14 +61,14 @@ public class Song implements Serializable{
 	public void setSongName(String song_name) {
 		this.song_name = song_name;
 	}
-	public int getSongName() {
+	public String getSongName() {
 		return song_name;
 	}
 	
 	public void setSongFilePath(String song_filePath) {
 		this.song_filePath = song_filePath;
 	}
-	public int getSongFilePath() {
+	public String getSongFilePath() {
 		return song_filePath;
 	}
 

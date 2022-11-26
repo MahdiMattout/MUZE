@@ -7,7 +7,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import database.SongsQuery;
 import database.UsersQuery;
+import entity.Song;
 import entity.User;
 
 public class SongsCache {
@@ -43,11 +45,30 @@ public class SongsCache {
 
 		try {
 			readWriteLock.writeLock().tryLock(3, TimeUnit.SECONDS);
-			if (usersMap == null) {
+			if (songsMap == null) {
 				init();
 			}
 
-			return SongsQuery.findSongByIdAndName(ID, song_name);
+			return SongsQuery.findSongByIDAndName(id, song_name);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			readWriteLock.writeLock().unlock();
+		}
+
+		return null;
+	}
+	
+	public static Song findSongByPath( String song_name_path) {
+
+		try {
+			readWriteLock.writeLock().tryLock(3, TimeUnit.SECONDS);
+			if (songsMap == null) {
+				init();
+			}
+
+			return SongsQuery.findSongByPath(song_name_path);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,14 +80,14 @@ public class SongsCache {
 	}
 
 	public static Song addSong(Song song) throws Exception {
-		User newSong = null;
+		Song newSong = null;
 		try {
 			readWriteLock.writeLock().tryLock(3, TimeUnit.SECONDS);
-			if (usersMap == null) {
+			if (songsMap == null) {
 				init();
 			}
-			SongsQuery.createUser(song);
-			newSong = songsQuery.findSongByIdAndName(song.getId(), song.getSongName());
+			SongsQuery.createSong(song);
+			newSong = SongsQuery.findSongByIDAndName(song.getId(), song.getSongName());
 			songsMap.put(newSong.getId(), newSong);
 		} finally {
 			readWriteLock.writeLock().unlock();

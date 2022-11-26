@@ -14,13 +14,6 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/resources/doc.jpg</name>
-			<type>1</type>
-			<location>/Users/mahdimattout/Downloads/doc.jpg</location>
-		</link>
-	</linkedResources>
 	<filteredResources>
 		<filter>
 			<id>1668623507189</id>

@@ -30,7 +30,7 @@ public class UsersCache {
 			if (usersMap == null) {
 				init();
 			}
-			return UsersQuery.findUserById( id));
+			return UsersQuery.findUserById( id);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -49,6 +49,24 @@ public class UsersCache {
 				init();
 			}
 			return UsersQuery.findUserByUsername(username);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			readWriteLock.writeLock().unlock();
+		}
+
+		return null;
+	}
+	
+	public static User findUserByUsernameAndPassword(String username, String password) {
+
+		try {
+			readWriteLock.writeLock().tryLock(3, TimeUnit.SECONDS);
+			if (usersMap == null) {
+				init();
+			}
+			return UsersQuery.findUserByUsernameAndPassword(username, password);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

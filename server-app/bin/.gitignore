@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-/database/
 /entity/
 /resources/
-/services/
-=======
-/entity/
 /database/
->>>>>>> bf73818d0336d6cc57a1b4184606a7b4aa82959a
+/services/
+/uitls/
 /view/
