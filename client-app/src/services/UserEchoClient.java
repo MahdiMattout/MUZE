@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import entity.Song;
 import entity.User;
 import utils.Constants;
 
@@ -39,14 +40,14 @@ public class UserEchoClient {
 
 	public static User createUser(User user) throws IOException, ClassNotFoundException {
 		establishConnection();
-		ObjectOutputStream os = new ObjectOutputStream(clientSocket.getOutputStream());
+		os = new ObjectOutputStream(clientSocket.getOutputStream());
 		os.writeObject(user);
-		ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+		ois = new ObjectInputStream(clientSocket.getInputStream());
 		User receivedUser = (User) ois.readObject();
 		System.out.println("--------------------------- created user id " + receivedUser.getId()
 				+ " -------------------------------------");
 		//		if (receivedUser != null && receivedUser.getId() > 0)
-		//			stopConnection();
+		stopConnection();
 		return receivedUser;
 	}
 

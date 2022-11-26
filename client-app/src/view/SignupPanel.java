@@ -19,11 +19,13 @@ import javax.swing.SwingConstants;
 
 
 import controller.MainFrameController;
+import entity.Song;
 import entity.User;
 import kuusisto.tinysound.Music;
 import kuusisto.tinysound.Sound;
 import kuusisto.tinysound.TinySound;
 import services.Singleton;
+import services.SongEchoClient;
 import services.UserEchoClient;
 
 public class SignupPanel extends JPanel {
@@ -121,13 +123,13 @@ public class SignupPanel extends JPanel {
 				String song = SongNamePanel.getTxtField().getText();
 				// need to input the song and save it here: and change type from string here and in User.java
 								
-				User user = new User(firstName, lastName, username, emailAddress, password,true, song, songFile);
-
+				User user = new User(firstName, lastName, username, emailAddress, password, true, song, songFile);
+				Song uploadedSong = new Song(user.getId(), song, songFile.getAbsolutePath());
 				try {
 					user = UserEchoClient.createUser(user);
-
 					if (user.getId() > 0) {
 						Singleton.setCurrentUser(user);
+						uploadedSong = SongEchoClient.createSong(uploadedSong);
 						frameController.navigateToProject(new ProjectPanel());
 					}
 
@@ -143,8 +145,8 @@ public class SignupPanel extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					JFileChooser file_upload = new JFileChooser();
-					int res = file_upload.showOpenDialog(null);
-					int save = file_upload.showSaveDialog(null);
+//					int res = file_upload.showOpenDialog(null);
+					int save = file_upload.showOpenDialog(null);
 					
 					String songName = SongNamePanel.getTxtField().getText();
 
@@ -152,8 +154,6 @@ public class SignupPanel extends JPanel {
 					if (save == JFileChooser.APPROVE_OPTION) {
 						//Creating a File object
 						songFile = new File(file_upload.getSelectedFile().getAbsolutePath());
-					      
-					 
 						try {
 
 						      System.out.println("Successful upload of: " + songFile);
