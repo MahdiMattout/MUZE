@@ -18,7 +18,7 @@ public class UserEchoClient {
 
 	private static void establishConnection() throws UnknownHostException, IOException {
 //		if (clientSocket == null) {
-		clientSocket = new Socket(Constants.SERVER_IP, Constants.USER_PORT);
+		clientSocket = new Socket(Constants.SERVER_IP(), Constants.USER_PORT);
 		clientSocket.setSoTimeout(50000);
 //		}
 

@@ -1,4 +1,8 @@
+/.DS_Store
+/controller/
+/entity/
+/kuusisto/
 /resources/
-/view/
 /services/
 /utils/
+/view/
