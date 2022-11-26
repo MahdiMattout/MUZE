@@ -13,91 +13,119 @@ import com.j256.ormlite.stmt.Where;
 import entity.User;
 import services.UsersCache;
 
-public class SongsQuery {
+public class SongsQuery  extends DbManager {
 	
-//		private static QueryBuilder<User, Integer> queryBuilder = null;
-//		public static Where<User, Integer> where = null;
-//		private PreparedQuery<User> query;
-//
-//		public static User findUserByUsernameAndPassword(String username, String password) {
-//			try {
-//				establishConnection();
-//				queryBuilder = DbManager.getUserDao().queryBuilder();
-//				where = queryBuilder.where();
-//				List<User> users = where.and(where.eq("username" ,username), where.eq("password", password)).query();
-//				if (users.size() == 1) {
-//					return users.get(0);
-////					return new User(id, firstname, lastname, username, email, address, password, false);
-//				}
-//			} catch (SQLException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			return null;
-//		}
-//		//This works because usernames are unique!
-//		public static User findUserByUsername(String username) {
-//			try {
-//				establishConnection();
-//				queryBuilder = DbManager.getUserDao().queryBuilder();
-//				where = queryBuilder.where();
-//				List<User> users = where.eq("username" ,username).query();
-//				if (users.size() == 1) {
-//					return users.get(0);
-////					return new User(id, firstname, lastname, username, emailAddress, password, false, song);
-//				}
-//			} catch (SQLException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			return null;
-//		}
-//
-//		public static ConcurrentHashMap<Integer, User> findAllUsers() {
-////			String sqlStatement = "SELECT * FROM Users";
-//			ConcurrentHashMap<Integer, User> usersMap = new ConcurrentHashMap<Integer, User>();
-//			try {
-//				establishConnection();
-//				queryBuilder = DbManager.getUserDao().queryBuilder();
-//				where = queryBuilder.where();
-//				
-//				List<User> users = DbManager.getUserDao().queryForAll();
-//				for (int i = 0; i < users.size(); i++){
-//					User user = users.get(i);
-//					user.setNew(false);
-//					usersMap.put(user.getId(), user);
-//
-//				}
-//			} catch (SQLException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			return usersMap;
-//		}
-//
-//		public static void createUser(User user) throws Exception {
-//			if (UsersCache.findUserByUsername(user.getUsername()) == null) {
-//				String query = MessageFormat.format("INSERT INTO Users ("
-//						+ "" 
-//						+ " firstname, " 
-//						+ " lastname, " 
-//						+ " username, "
-//						+ " email, "
-//						+ " password, "
-//						+ " song_name, "
-//						+ " song_file ) VALUES ( {0}, {1}, {2}, {3} , {4}, {5}, {6})", user.getFirstName(), user.getLastName(), 
-//						user.getUsername(), user.getEmail(),user.getPassword(), user.getSongName(), user.getSongFile());
-//
-//				System.out.println(query);
-//				establishConnection();
-//				queryBuilder = DbManager.getUserDao().queryBuilder();
-//				where = queryBuilder.where();
-//				// execute the prepared statement insert
-//				DbManager.getUserDao().create(user);
-//				return;
-//			}
-//			throw new IllegalArgumentException("USER USERNAME IS UNIQUE. CREATION FAILED !");
-//		}
-//
+		private static QueryBuilder<Song, Integer> queryBuilder = null;
+		public static Where<Song, Integer> where = null;
+		private PreparedQuery<Song> query;
+
+		
+		//int id -  String song_name - String song_filePath; // this has to be casted to File once queried
+		
+		// works because id is unique
+		public static Song findSongByID(int id) {
+			try {
+				establishConnection();
+				queryBuilder = DbManager.getUserDao().queryBuilder();
+				where = queryBuilder.where();
+				List<Song> songs = where.and(where.eq("id", id)).query();
+				if (songs.size() == 1) {
+					return songs.get(0);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		public static Song findSongByIDAndName(int id, String song_name) {
+			try {
+				establishConnection();
+				queryBuilder = DbManager.getUserDao().queryBuilder();
+				where = queryBuilder.where();
+				List<Song> songs = where.and(where.eq("id", id), where.eq("song_name", song_name),).query();
+				if (songs.size() == 1) {
+					return songs.get(0);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		public static Song findSongByUploaderIdAndName(int uploader_id, String song_name) {
+			try {
+				establishConnection();
+				queryBuilder = DbManager.getUserDao().queryBuilder();
+				where = queryBuilder.where();
+				List<Song> songs = where.and(where.eq("uploader_id", uploader_id), where.eq("song_name", song_name)).query();
+				if (songs.size() == 1) {
+					return songs.get(0);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		public static Song findSongByPath( String song_filePath) {
+			try {
+				establishConnection();
+				queryBuilder = DbManager.getUserDao().queryBuilder();
+				where = queryBuilder.where();
+				List<Song> songs = where.and(where.eq("song_filePath", song_filePath)).query();
+				if (songs.size() == 1) {
+					return songs.get(0);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		
+		public static ConcurrentHashMap<Integer, Song> findAllSongs() {
+			ConcurrentHashMap<Integer, Song> songsMap = new ConcurrentHashMap<Integer, Song>();
+			try {
+				establishConnection();
+				queryBuilder = DbManager.getUserDao().queryBuilder();
+				where = queryBuilder.where();
+				
+				List<Song> songs = DbManager.getSongDao().queryForAll();
+				for (int i = 0; i < songs.size(); i++){
+					Song song = users.get(i);
+					song.setNew(false);
+					songsMap.put(song.getId(), song);
+
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return songsMap;
+		}
+
+		public static void createSong(Song song) throws Exception {
+			if (SongsCache.findSongByPath(song.getSongFilePath()) == null) {
+				String query = MessageFormat.format("INSERT INTO Song ("
+						+ "" 
+						+ " song_name ," 
+						+ " song_filePath ) VALUES ( {0}, {1})", song.getSongName(), song.getSongFilePath());
+
+				System.out.println(query);
+				establishConnection();
+				queryBuilder = DbManager.getUserDao().queryBuilder();
+				where = queryBuilder.where();
+				// execute the prepared statement insert
+				DbManager.getUserDao().create(song);
+				return;
+			}
+			throw new IllegalArgumentException("Song path IS UNIQUE. CREATION FAILED !");
+		}
+
 
 	}

@@ -13,8 +13,7 @@ import entity.Project;
 import uitls.Constants;
 
 public class ProjectEchoServer extends Thread {
-	// https://www.baeldung.com/a-guide-to-java-sockets
-	// https://stackoverflow.com/questions/27736175/how-to-send-receive-objects-using-sockets-in-java
+	
 	private static ServerSocket serverSocket;
 	private static Socket clientSocket;
 

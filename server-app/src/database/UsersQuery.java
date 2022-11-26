@@ -16,15 +16,14 @@ public class UsersQuery extends DbManager {
 	public static Where<User, Integer> where = null;
 	private PreparedQuery<User> query;
 
-	public static User findUserByUsernameAndPassword(String username, String password) {
+	public static User findUserById(Integer id) {
 		try {
 			establishConnection();
 			queryBuilder = DbManager.getUserDao().queryBuilder();
 			where = queryBuilder.where();
-			List<User> users = where.and(where.eq("username" ,username), where.eq("password", password)).query();
+			List<User> users = where.and(where.eq("id" ,id)).query();
 			if (users.size() == 1) {
 				return users.get(0);
-//				return new User(id, firstname, lastname, username, email, address, password, false);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -32,6 +31,7 @@ public class UsersQuery extends DbManager {
 		}
 		return null;
 	}
+	
 	//This works because usernames are unique!
 	public static User findUserByUsername(String username) {
 		try {
@@ -41,7 +41,6 @@ public class UsersQuery extends DbManager {
 			List<User> users = where.eq("username" ,username).query();
 			if (users.size() == 1) {
 				return users.get(0);
-//				return new User(id, firstname, lastname, username, emailAddress, password, false, song);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -51,7 +50,7 @@ public class UsersQuery extends DbManager {
 	}
 
 	public static ConcurrentHashMap<Integer, User> findAllUsers() {
-//		String sqlStatement = "SELECT * FROM Users";
+
 		ConcurrentHashMap<Integer, User> usersMap = new ConcurrentHashMap<Integer, User>();
 		try {
 			establishConnection();
@@ -74,15 +73,15 @@ public class UsersQuery extends DbManager {
 
 	public static void createUser(User user) throws Exception {
 		if (UsersCache.findUserByUsername(user.getUsername()) == null) {
-			String query = MessageFormat.format("INSERT INTO Users ("
+			String query = MessageFormat.format("INSERT INTO User ("
 
 					+ "" 
-					+ " firstname, " 
-					+ " lastname, " 
-					+ " username, "
-					+ " email, "
-					+ " password, "
-					+ " song_name, "
+					+ " firstname ," 
+					+ " lastname ," 
+					+ " username ,"
+					+ " email ,"
+					+ " password ,"
+					+ " song_name ,"
 					+ " song_file ) VALUES ( {0}, {1}, {2}, {3} , {4}, {5}, {6})", user.getFirstName(), user.getLastName(), 
 					user.getUsername(), user.getEmail(),user.getPassword(), user.getSongName(), user.getSongFile());
 

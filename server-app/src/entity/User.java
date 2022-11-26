@@ -8,12 +8,15 @@ import javax.swing.DefaultListModel;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "Users")
+@DatabaseTable(tableName = "User")
 public class User implements Serializable {
 
 	/**
 	 * 
 	 */
+	
+	// PS: ADJUST: User has only to save the name of the first song. all others can be found in the Song table
+	
 	private static final long serialVersionUID = 1L;
 	@DatabaseField(generatedId = true)
 	private int id;
@@ -41,13 +44,7 @@ public class User implements Serializable {
 	private final DefaultListModel<String> songsGivenNameList = new DefaultListModel<>(); // needs to be updated on uploads
 	
 	private final DefaultListModel<File> songsFileList = new DefaultListModel<>(); // needs to be updated on uploads
-	
-
-	public String emailAddress;
-	@DatabaseField
-	public boolean isNew = false;
-	DefaultListModel<String> songsList = new DefaultListModel<>(); // needs to be updated on uploads
-	
+		
 	public User() {
 		this.firstName = "";
 		this.lastName = "";
@@ -57,21 +54,6 @@ public class User implements Serializable {
 		this.isNew = false;
 	}
 	
-	public User(int id, String firstName, String lastName, String username, 
-			String emailAddress, String password, boolean isNew, String song) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.username = username;
-		this.password = password;
-		this.emailAddress = emailAddress;
-		// list of downloaded songs: updates on uploads
-		//this.song = song;
-		this.songsList.add(0, song);
-		this.isNew = isNew;
-	}
-
 
 	public User(int id, String firstName, String lastName, String username, 
 			String emailAddress, String password, boolean isNew, String song, File songFile) {
@@ -224,7 +206,7 @@ public class User implements Serializable {
 		return songName;
 	}
 
-	public void getSongName(String songName) {
+	public void setSongName(String songName) {
 		this.songName = songName;
 	}
 	
