@@ -82,8 +82,8 @@ public class UsersQuery extends DbManager {
 					+ " email ,"
 					+ " password ,"
 					+ " song_name ,"
-					+ " song_file ) VALUES ( {0}, {1}, {2}, {3} , {4}, {5}, {6})", user.getFirstName(), user.getLastName(), 
-					user.getUsername(), user.getEmail(),user.getPassword(), user.getSongName(), user.getSongFile());
+					+ " songSileString ) VALUES ( {0}, {1}, {2}, {3} , {4}, {5}, {6})", user.getFirstName(), user.getLastName(), 
+					user.getUsername(), user.getEmail(),user.getPassword(), user.getSongName(), user.getSongFileString());
 
 			System.out.println(query);
 			establishConnection();

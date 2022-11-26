@@ -124,12 +124,11 @@ public class SignupPanel extends JPanel {
 				// need to input the song and save it here: and change type from string here and in User.java
 								
 				User user = new User(firstName, lastName, username, emailAddress, password, true, song, songFile);
-				Song uploadedSong = new Song(user.getId(), song, songFile.getAbsolutePath());
 				try {
 					user = UserEchoClient.createUser(user);
 					if (user.getId() > 0) {
 						Singleton.setCurrentUser(user);
-						uploadedSong = SongEchoClient.createSong(uploadedSong);
+						Song uploadedSong = SongEchoClient.createSong(new Song(user.getId(), song, songFile.getAbsolutePath()));
 						frameController.navigateToProject(new ProjectPanel());
 					}
 

@@ -115,7 +115,8 @@ public class SongsQuery  extends DbManager {
 				String query = MessageFormat.format("INSERT INTO Song ("
 						+ "" 
 						+ " song_name ," 
-						+ " song_filePath ) VALUES ( {0}, {1})", song.getSongName(), song.getSongFilePath());
+						+ " song_filePath, "
+						+ "uploader_id ) VALUES ( {0}, {1}, {2})", song.getSongName(), song.getSongFilePath(), song.getUploaderId());
 
 				System.out.println(query);
 				establishConnection();

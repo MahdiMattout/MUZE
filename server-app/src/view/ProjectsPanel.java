@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.security.auth.Refreshable;
 import javax.swing.GroupLayout;
@@ -35,6 +36,8 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import database.ProjectsQuery;
+import database.SongsQuery;
+import entity.Song;
 
 public class ProjectsPanel extends JPanel {
 	/**
