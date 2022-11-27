@@ -19,11 +19,13 @@ import javax.swing.SwingConstants;
 
 
 import controller.MainFrameController;
+import entity.Project;
 import entity.Song;
 import entity.User;
 import kuusisto.tinysound.Music;
 import kuusisto.tinysound.Sound;
 import kuusisto.tinysound.TinySound;
+import services.ProjectEchoClient;
 import services.Singleton;
 import services.SongEchoClient;
 import services.UserEchoClient;
@@ -129,7 +131,9 @@ public class SignupPanel extends JPanel {
 					if (user.getId() > 0) {
 						Singleton.setCurrentUser(user);
 						Song uploadedSong = SongEchoClient.createSong(new Song(user.getId(), song, songFile.getAbsolutePath()));
-						frameController.navigateToProject(new ProjectPanel());
+						Project newPr = ProjectEchoClient.sendProject(new Project(user.getUsername(), song, true, user.getId(), uploadedSong.getId()));
+						frameController.navigateToProject(new ProjectPanel(user));
+						
 					}
 
 				} catch (ClassNotFoundException | IOException e1) {
@@ -157,20 +161,12 @@ public class SignupPanel extends JPanel {
 
 						      System.out.println("Successful upload of: " + songFile);
 						      System.out.println("Given song name: " + songName);
-						      
-						      System.out.println("playing song without repeat.");
-						
+						      						
 						  	    //initialize TinySound
-								TinySound.init();
-		
-								//load with Files, URLs or InputStreams
-								Music song = TinySound.loadMusic(songFile);
-								//start playing the music on loop
-								//song.play(false);
-
-							
+//								TinySound.init();
+//								Music song = TinySound.loadMusic(songFile);
+//								
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					    

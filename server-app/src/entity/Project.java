@@ -97,7 +97,7 @@ public class Project implements Serializable {
 		return this.song_name;
 	}
 
-	public void setSongName(String content) {
+	public void setSongName(String song_name) {
 		this.song_name = song_name;
 	}
 

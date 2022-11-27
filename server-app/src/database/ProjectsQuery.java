@@ -152,7 +152,7 @@ public class ProjectsQuery extends DbManager {
 			List<Project> projects = findAllProjects();
 			int rowsCount = projects.size();
 			int i = 0;
-			arr = new Object[rowsCount][3];
+			arr = new Object[rowsCount][4];
 			while (i < rowsCount) {
 				arr[i][0] = projects.get(i).getUploaderName();
 				arr[i][1] = projects.get(i).getSongName();

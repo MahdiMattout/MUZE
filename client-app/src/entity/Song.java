@@ -16,8 +16,21 @@ public class Song implements Serializable{
 	public Song() {
 		super();
 	}
+	
+	public Song(int id) {
+		super();
+		this.id = id;
+	}
+	
+	public Song(int id, int uploader_id, String name, String path) {
+		super();
+		this.id = id;
+		this.song_name = name;
+		this.song_filePath = path;
+		this.uploader_id = uploader_id;
+	}
 
-	public Song(int uploader_id, String name, String path) {
+	public Song( int uploader_id, String name, String path) {
 		super();
 		this.uploader_id = uploader_id;
 		this.song_name = name;

@@ -109,6 +109,7 @@ public class User implements Serializable {
 		
 		this.songName = song;
 		this.songFile = songFile;
+		
 		this.songFileString = songFile.getAbsolutePath();
 		
 		this.songsGivenNameList.add(0, songName); // add the name of each song
@@ -121,6 +122,7 @@ public class User implements Serializable {
 		super();
 		this.username = username;
 		this.password = password;
+		this.isNew = false;
 	}
 	
 

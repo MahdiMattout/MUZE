@@ -19,17 +19,20 @@ public class User implements Serializable {
 	private String emailAddress;
 	private File songFile;
 	private String songName;
+	private String songFileString;
 	private final DefaultListModel<String> songsGivenNameList = new DefaultListModel<>(); // needs to be updated on uploads
 	private final DefaultListModel<File> songsFileList = new DefaultListModel<>(); // needs to be updated on uploads
 	private boolean isNew = false;
 
 	public User() {
-		this.firstName = "";
-		this.lastName = "";
-		this.username = "";
-		this.password = "";
-		this.emailAddress = "";
-		this.isNew = false;
+//		this.firstName = "";
+//		this.lastName = "";
+//		this.username = "";
+//		this.password = "";
+//		this.emailAddress = "";
+//		this.isNew = false;
+		
+		super();
 	}
 	
 
@@ -61,9 +64,10 @@ public class User implements Serializable {
 		this.username = username;
 		this.password = password;
 		this.emailAddress = emailAddress;
-		
+//		this.isNew = false;
 		this.songName = song;
 		this.songFile = songFile;
+		this.songFileString = songFile.getAbsolutePath();
 		
 		this.songsGivenNameList.add(0, songName); // add the name of each song
 		this.songsFileList.add(0, songFile); // add the file of each song
@@ -78,7 +82,7 @@ public class User implements Serializable {
 		this.password = password;
 
 		this.emailAddress = emailAddress;
-
+		this.songFileString = songFile.getAbsolutePath();
 		this.isNew = isNew;
 		
 		this.songName = song;
@@ -94,6 +98,7 @@ public class User implements Serializable {
 		super();
 		this.username = username;
 		this.password = password;
+		this.isNew = false;
 	}
 	
 
@@ -154,6 +159,8 @@ public class User implements Serializable {
 		return id;
 	}
 
+	
+	
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -180,6 +187,14 @@ public class User implements Serializable {
 
 	public void getSongName(String songName) {
 		this.songName = songName;
+	}
+	
+	public String getSongFileString() {
+		return songFileString;
+	}
+
+	public void setSongFileString(String songFileString) {
+		this.songFileString = songFileString;
 	}
 
 }

@@ -22,7 +22,6 @@ public class ProjectEchoServer extends Thread {
 		try {
 			init();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -59,12 +58,12 @@ public class ProjectEchoServer extends Thread {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static void closeConnection() {
 		try {
 			clientSocket.close();
 			serverSocket.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -73,7 +72,6 @@ public class ProjectEchoServer extends Thread {
 		try {
 			ProjectEchoServer.init();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -95,12 +93,10 @@ public class ProjectEchoServer extends Thread {
 					receivedProject = new Project(-1, "", "");
 				respond(receivedProject);
 			} catch (ClassNotFoundException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		@SuppressWarnings("null")
 		private Project handleRequest() throws IOException, ClassNotFoundException {
 			Project project = null;
 			// getting object input stream from client
@@ -113,7 +109,6 @@ public class ProjectEchoServer extends Thread {
 				try {
 					project = createProject(receivedProject);
 				} catch (InterruptedException | SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {

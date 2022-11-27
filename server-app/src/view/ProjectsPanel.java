@@ -100,9 +100,10 @@ public class ProjectsPanel extends JPanel {
 		
 		///-------
 
-		projectLabel.setIcon(new ImageIcon(ProjectsPanel.class.getResource("/resources/music_Icon.png")));
+		projectLabel.setIcon(new ImageIcon(ProjectsPanel.class.getResource("/resources/account.png")));
+		
 
-		JLabel lblProjects = new JLabel("MUZE");
+		JLabel lblProjects = new JLabel("MUZE Server");
 		lblProjects.setHorizontalAlignment(SwingConstants.CENTER);
 		lblProjects.setForeground(Color.BLACK);
 		lblProjects.setFont(new Font("Andalus", Font.BOLD, 40));
@@ -225,24 +226,6 @@ public class ProjectsPanel extends JPanel {
 			
 		
 	};
-	
-	
-//	MouseListener playlistListener = new MouseAdapter() {
-//		// show the Stream / Download options for any shown  song 
-//		public void mouseClicked(MouseEvent e) {
-//			if (SwingUtilities.isRightMouseButton(e)) {//if right clicked
-//				//get the pointer and select the list item 
-//    			int row = .......locationToIndex(e.getPoint());
-//    			.........setSelectedIndex(row);
-//    			
-//    			//Show the playlist menu
-//    			playlistMenu.show(e.getComponent(), e.getX(), e.getY());
-//		    }
-//
-//		}
-//	};
-//	
-//	
 	
 	
 	public void init() {
