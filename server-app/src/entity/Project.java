@@ -20,9 +20,9 @@ public class Project implements Serializable {
 	public String song_name;
 	@DatabaseField
 	public boolean isNew = false;
-	@DatabaseField
+	@DatabaseField(unique = false)
 	public int userId;
-	@DatabaseField
+	@DatabaseField(unique = false)
 	public int songId;
 
 	public Project() {

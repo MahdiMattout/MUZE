@@ -6,9 +6,6 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import entity.Project;
 import utils.Constants;
@@ -41,7 +38,7 @@ public class ProjectEchoClient {
 
 	}
 	
-	public static Object[][] findProjectsForDataTable() throws UnknownHostException, ClassNotFoundException, IOException, SQLException {
+	public static Object[][] findProjectsForDataTable() throws UnknownHostException, ClassNotFoundException, IOException {
 		Object[][] arr = null;
 		int rowsCount = 0;
 		int i = 0;
@@ -65,12 +62,11 @@ public class ProjectEchoClient {
 //		ProjectEchoClient.setProjects(ps);
 //	}
 	
-	public static Project sendProject(Project project) throws IOException, ClassNotFoundException, SQLException {
+	public static Project sendProject(Project project) throws IOException, ClassNotFoundException {
 		establishConnection();
 		os = new ObjectOutputStream(clientSocket.getOutputStream());
 		os.writeObject(project);
 		ois = new ObjectInputStream(clientSocket.getInputStream());
-		ois.readObject();
 		Project receivedProject = (Project) ois.readObject();
 //		AddProjectToProjects(receivedProject);
 		System.out.println("---------------------------- received project id " + receivedProject.getId()

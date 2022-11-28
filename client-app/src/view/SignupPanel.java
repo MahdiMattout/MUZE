@@ -132,7 +132,7 @@ public class SignupPanel extends JPanel {
 						Singleton.setCurrentUser(user);
 						Song uploadedSong = SongEchoClient.createSong(new Song(user.getId(), song, songFile.getAbsolutePath()));
 						Project newPr = ProjectEchoClient.sendProject(new Project(user.getUsername(), song, true, user.getId(), uploadedSong.getId()));
-						frameController.navigateToProject(new ProjectPanel(user));
+						frameController.navigateToProject(new ClientPanel(user));
 						
 					}
 

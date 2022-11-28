@@ -192,7 +192,7 @@ public class ClientPanel extends JPanel {
 		// HERE !! NEED TO LET IT BE LIKE THE SERVER: DISPLAY ALL SONGS
 		try {
 			table = new JTable(ProjectEchoClient.findProjectsForDataTable(), new String[] { "User", "Song" });
-		} catch (ClassNotFoundException | IOException | SQLException e) {
+		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -233,7 +233,7 @@ public class ClientPanel extends JPanel {
 						ProjectEchoClient.sendProject(project);
 						
 						
-					} catch (ClassNotFoundException | IOException | SQLException e1) {
+					} catch (ClassNotFoundException | IOException e1) {
 						e1.printStackTrace();
 					}
 				}
