@@ -6,6 +6,9 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import entity.Project;
 import utils.Constants;
@@ -18,6 +21,17 @@ public class ProjectEchoClient {
 	private static Socket clientSocket;
 	private static ObjectOutputStream os;
 	private static ObjectInputStream ois;
+//	private static List<Project> projects;
+
+//	public static void setProjects(List<Project> projects) {
+//		ProjectEchoClient.projects = projects;
+//	}
+//
+//	public static List<Project> getProjects() throws SQLException {
+//		return ProjectsQuery.findAllProjects();
+//	}
+//	
+	
 
 	private static void establishConnection() throws UnknownHostException, IOException {
 		// if (clientSocket == null) {
@@ -26,13 +40,39 @@ public class ProjectEchoClient {
 		// }
 
 	}
-
-	public static Project sendProject(Project project) throws IOException, ClassNotFoundException {
+	
+	public static Object[][] findProjectsForDataTable() throws UnknownHostException, ClassNotFoundException, IOException, SQLException {
+		Object[][] arr = null;
+		int rowsCount = 0;
+		int i = 0;
+		arr = new Object[rowsCount][4];
+//		while (i < rowsCount) {
+//			arr[i][0] = projects.get(i).getUploaderName();
+//			arr[i][1] = projects.get(i).getSongName();
+//			arr[i][2] = projects.get(i).getSongId();
+//			arr[i][3] = projects.get(i).getUserId();
+//			i++;
+//		}
+		return arr;
+	}
+	
+//	public static void AddProjectToProjects(Project p) throws SQLException {
+//		if (ProjectEchoClient.projects == null) {
+//			ProjectEchoClient.projects = new ArrayList<Project>();
+//		}
+//		List<Project> ps = ProjectEchoClient.getProjects();
+//		ps.add(p);
+//		ProjectEchoClient.setProjects(ps);
+//	}
+	
+	public static Project sendProject(Project project) throws IOException, ClassNotFoundException, SQLException {
 		establishConnection();
 		os = new ObjectOutputStream(clientSocket.getOutputStream());
 		os.writeObject(project);
 		ois = new ObjectInputStream(clientSocket.getInputStream());
+		ois.readObject();
 		Project receivedProject = (Project) ois.readObject();
+//		AddProjectToProjects(receivedProject);
 		System.out.println("---------------------------- received project id " + receivedProject.getId()
 				+ "--------------------------------");
 		// if (receivedUser != null && receivedUser.getId() > 0)

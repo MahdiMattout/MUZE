@@ -1,5 +1,6 @@
 package services;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -7,6 +8,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.List;
 
 import database.ProjectsQuery;
 import entity.Project;
@@ -103,7 +105,6 @@ public class ProjectEchoServer extends Thread {
 			ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
 			// reading object
 			Object obj = ois.readObject();
-			// cast to project
 			Project receivedProject = (Project) obj;
 			if (receivedProject.isNew()) {
 				try {
@@ -115,17 +116,17 @@ public class ProjectEchoServer extends Thread {
 				// search if project exits
 				project = ProjectsQuery.findProjectByUploader_SongName( receivedProject.getSongName(), receivedProject.getUploaderName());
 			}
-			System.out.println("server" + receivedProject);
+			System.out.println("project created" + receivedProject.getId());
 			// ois.close();
 			return project;
-
 		}
 
 		private Project createProject(Project project) throws InterruptedException, SQLException {
 			ProjectsQuery.createProject(project);
 			return ProjectsQuery.findProjectBySongId_UserId(project.getSongId(), project.getUserId());
 		}
-
+		
+		
 		private void respond(Project project) throws IOException {
 			// reply to client with user
 			ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());

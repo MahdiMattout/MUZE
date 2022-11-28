@@ -12,7 +12,7 @@ public class Project implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@DatabaseField(id = true)
+	@DatabaseField(generatedId = true)
 	public int id;
 	@DatabaseField
 	public String uploader_name;

@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -76,8 +77,12 @@ public class ClientPanel extends JPanel {
 		
 	/**
 	 * Create the panel.
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
+	 * @throws UnknownHostException 
+	 * @throws SQLException 
 	 */
-	public ClientPanel(User user) {
+	public ClientPanel(User user) throws UnknownHostException, ClassNotFoundException, IOException {
 		
 		Singleton.setCurrentUser(user); // current user after signing in/up
         this.user = user;
@@ -124,7 +129,7 @@ public class ClientPanel extends JPanel {
 		
 		
 		// Second part of the page: a table showing all users and songs + Refresh
-		// And CLicking on each has to show the menu options
+		// And Clicking on each has to show the menu options
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup().addGap(26)
@@ -185,7 +190,12 @@ public class ClientPanel extends JPanel {
 		
 		
 		// HERE !! NEED TO LET IT BE LIKE THE SERVER: DISPLAY ALL SONGS
-		table = new JTable(ClientPanel.findProjectsForDataTable(), new String[] { "User", "Song" });
+		try {
+			table = new JTable(ProjectEchoClient.findProjectsForDataTable(), new String[] { "User", "Song" });
+		} catch (ClassNotFoundException | IOException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		table.setRowHeight(50);
 		table.getTableHeader().setBackground(Color.white);
 		table.getTableHeader().setFont(new Font("Andalus", Font.BOLD, 22));
@@ -223,7 +233,7 @@ public class ClientPanel extends JPanel {
 						ProjectEchoClient.sendProject(project);
 						
 						
-					} catch (ClassNotFoundException | IOException e1) {
+					} catch (ClassNotFoundException | IOException | SQLException e1) {
 						e1.printStackTrace();
 					}
 				}

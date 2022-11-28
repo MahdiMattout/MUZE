@@ -74,7 +74,6 @@ public class UsersQuery extends DbManager {
 	public static void createUser(User user) throws Exception {
 		if (UsersCache.findUserByUsername(user.getUsername()) == null) {
 			String query = MessageFormat.format("INSERT INTO User ("
-
 					+ "" 
 					+ " firstname ," 
 					+ " lastname ," 
