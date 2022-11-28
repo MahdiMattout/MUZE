@@ -7,12 +7,11 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import entity.Song;
 import entity.User;
 import utils.Constants;
 
 public class UserEchoClient {
-	// http://www.jgyan.com/networking/how%20to%20send%20object%20over%20socket%20in%20java.php
-	// https://www.baeldung.com/a-guide-to-java-sockets
 
 	private static Socket clientSocket;
 	private static ObjectOutputStream os;
@@ -20,7 +19,7 @@ public class UserEchoClient {
 
 	private static void establishConnection() throws UnknownHostException, IOException {
 //		if (clientSocket == null) {
-		clientSocket = new Socket(Constants.SERVER_IP, Constants.USER_PORT);
+		clientSocket = new Socket(Constants.SERVER_IP(), Constants.USER_PORT);
 		clientSocket.setSoTimeout(50000);
 //		}
 
@@ -34,21 +33,21 @@ public class UserEchoClient {
 		User receivedUser = (User) ois.readObject();
 		System.out.println("---------------------------- received user id " + receivedUser.getId()
 				+ "--------------------------------");
-//		if (receivedUser != null && receivedUser.getId() > 0)
-//			stopConnection();
+		//		if (receivedUser != null && receivedUser.getId() > 0)
+		//			stopConnection();
 		return receivedUser;
 	}
 
 	public static User createUser(User user) throws IOException, ClassNotFoundException {
 		establishConnection();
-		ObjectOutputStream os = new ObjectOutputStream(clientSocket.getOutputStream());
+		os = new ObjectOutputStream(clientSocket.getOutputStream());
 		os.writeObject(user);
-		ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+		ois = new ObjectInputStream(clientSocket.getInputStream());
 		User receivedUser = (User) ois.readObject();
 		System.out.println("--------------------------- created user id " + receivedUser.getId()
 				+ " -------------------------------------");
-//		if (receivedUser != null && receivedUser.getId() > 0)
-//			stopConnection();
+		//		if (receivedUser != null && receivedUser.getId() > 0)
+		stopConnection();
 		return receivedUser;
 	}
 

@@ -7,6 +7,8 @@ public class ServerSocketsFactory {
 		projectEchoServer.start();
 		UserEchoServer userEchoServer = new UserEchoServer();
 		userEchoServer.start();
+		SongEchoServer songEchoServer = new SongEchoServer();
+		songEchoServer.start();
 	}
 
 }

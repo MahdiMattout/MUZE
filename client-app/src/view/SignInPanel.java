@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -89,7 +90,7 @@ public class SignInPanel extends JPanel {
 					user = UserEchoClient.authenticateUser(user);
 					if (user.getId() > 0) {
 						Singleton.setCurrentUser(user);
-						frameController.navigateToProject(new ProjectPanel());
+						frameController.navigateToProject(new ClientPanel(user));
 					}
 				} catch (ClassNotFoundException | IOException e1) {
 					// TODO Auto-generated catch block

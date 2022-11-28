@@ -1,5 +1,6 @@
 package services;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -7,14 +8,14 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.List;
 
 import database.ProjectsQuery;
 import entity.Project;
 import uitls.Constants;
 
 public class ProjectEchoServer extends Thread {
-	// https://www.baeldung.com/a-guide-to-java-sockets
-	// https://stackoverflow.com/questions/27736175/how-to-send-receive-objects-using-sockets-in-java
+	
 	private static ServerSocket serverSocket;
 	private static Socket clientSocket;
 
@@ -23,7 +24,6 @@ public class ProjectEchoServer extends Thread {
 		try {
 			init();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -60,12 +60,12 @@ public class ProjectEchoServer extends Thread {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static void closeConnection() {
 		try {
 			clientSocket.close();
 			serverSocket.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -74,7 +74,6 @@ public class ProjectEchoServer extends Thread {
 		try {
 			ProjectEchoServer.init();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -96,42 +95,38 @@ public class ProjectEchoServer extends Thread {
 					receivedProject = new Project(-1, "", "");
 				respond(receivedProject);
 			} catch (ClassNotFoundException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		@SuppressWarnings("null")
 		private Project handleRequest() throws IOException, ClassNotFoundException {
 			Project project = null;
 			// getting object input stream from client
 			ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
 			// reading object
 			Object obj = ois.readObject();
-			// cast to project
 			Project receivedProject = (Project) obj;
 			if (receivedProject.isNew()) {
 				try {
 					project = createProject(receivedProject);
 				} catch (InterruptedException | SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {
 				// search if project exits
-				project = ProjectsQuery.findProjectByTitleAndUser(receivedProject.getTitle(), receivedProject.getUserId());
+				project = ProjectsQuery.findProjectByUploader_SongName( receivedProject.getSongName(), receivedProject.getUploaderName());
 			}
-			System.out.println("server" + receivedProject);
+			System.out.println("project created" + receivedProject.getId());
 			// ois.close();
 			return project;
-
 		}
 
 		private Project createProject(Project project) throws InterruptedException, SQLException {
 			ProjectsQuery.createProject(project);
-			return ProjectsQuery.findProjectByTitleAndUser(project.getTitle(), project.getUserId());
+			return ProjectsQuery.findProjectBySongId_UserId(project.getSongId(), project.getUserId());
 		}
-
+		
+		
 		private void respond(Project project) throws IOException {
 			// reply to client with user
 			ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());

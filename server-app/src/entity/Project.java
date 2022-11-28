@@ -12,49 +12,53 @@ public class Project implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@DatabaseField(id = true)
+	@DatabaseField(generatedId = true)
 	public int id;
 	@DatabaseField
-	public String title;
+	public String uploader_name;
 	@DatabaseField
-	public String content;
+	public String song_name;
 	@DatabaseField
 	public boolean isNew = false;
-	@DatabaseField
+	@DatabaseField(unique = false)
 	public int userId;
+	@DatabaseField(unique = false)
+	public int songId;
 
 	public Project() {
 		super();
 	}
-	public Project(String title, String content, boolean isNew) {
+	public Project(String uploader_name, String song_name, boolean isNew) {
 		super();
-		this.title = title;
-		this.content = content;
+		this.uploader_name = uploader_name;
+		this.song_name = song_name;
 		this.isNew = isNew;
 	}
 
-	public Project(String title, String content, boolean isNew, int userId) {
+	public Project(String uploader_name, String song_name, boolean isNew, int userId, int songId) {
 		super();
-		this.title = title;
-		this.content = content;
-		this.isNew = isNew;
-		this.userId = userId;
-	}
-
-	public Project(int id, String title, String content, boolean isNew, int userId) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.content = content;
+		this.uploader_name = uploader_name;
+		this.song_name = song_name;
 		this.isNew = isNew;
 		this.userId = userId;
+		this.songId = songId;
 	}
 
-	public Project(int id, String title, String content) {
+	public Project(int id, String uploader_name, String song_name, boolean isNew, int userId, int songId) {
 		super();
 		this.id = id;
-		this.title = title;
-		this.content = content;
+		this.uploader_name = uploader_name;
+		this.song_name = song_name;
+		this.isNew = isNew;
+		this.userId = userId;
+		this.songId = songId;
+	}
+
+	public Project(int id, String uploader_name, String song_name) {
+		super();
+		this.id = id;
+		this.uploader_name = uploader_name;
+		this.song_name = song_name;
 	}
 
 	public boolean isNew() {
@@ -69,24 +73,32 @@ public class Project implements Serializable {
 		return this.id;
 	}
 
+	public void setSongId(int songId) {
+		this.songId = songId;
+	}
+
+	public int getSongId() {
+		return this.songId;
+	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return this.title;
+	public String getUploaderName() {
+		return this.uploader_name;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setUploaderName(String uploader_name) {
+		this.uploader_name = uploader_name;
 	}
 
-	public String getContent() {
-		return this.content;
+	public String getSongName() {
+		return this.song_name;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setSongName(String song_name) {
+		this.song_name = song_name;
 	}
 
 	public int getUserId() {

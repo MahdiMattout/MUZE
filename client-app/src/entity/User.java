@@ -1,6 +1,9 @@
 package entity;
 
+import java.io.File;
 import java.io.Serializable;
+
+import javax.swing.DefaultListModel;
 
 public class User implements Serializable {
 
@@ -8,61 +11,102 @@ public class User implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private int id = 0;
 	private String firstName;
 	private String lastName;
 	private String username;
 	private String password;
-	private String email;
-	private String address;
+	private String emailAddress;
+	private File songFile;
+	private String songName;
+	private String songFileString;
+	private final DefaultListModel<String> songsGivenNameList = new DefaultListModel<>(); // needs to be updated on uploads
+	private final DefaultListModel<File> songsFileList = new DefaultListModel<>(); // needs to be updated on uploads
 	private boolean isNew = false;
 
+	public User() {
+//		this.firstName = "";
+//		this.lastName = "";
+//		this.username = "";
+//		this.password = "";
+//		this.emailAddress = "";
+//		this.isNew = false;
+		
+		super();
+	}
+	
+
 	public User(int id, String firstName, String lastName, String username, 
-			String email, String address, String password, 
-			boolean isNew) {
+			String emailAddress, String password, boolean isNew, String song, File songFile) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
-		this.email = email;
-		this.address = address;
-		// list of downloaded songs
+
+		this.emailAddress = emailAddress;
+
 		this.isNew = isNew;
+		
+		this.songName = song;
+		this.songFile = songFile;
+				
+		this.songsGivenNameList.add(0, songName); // add the name of each song
+
+		this.songsFileList.add(0, songFile); // add the file of each song
 	}
 
-	public User(String firstName, String lastName, String username, String email, String address, String password) {
+	public User(String firstName, String lastName, String username, String emailAddress,String password,  String song, File songFile) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
-		this.email = email;
-		this.address = address;
+		this.emailAddress = emailAddress;
+//		this.isNew = false;
+		this.songName = song;
+		this.songFile = songFile;
+		this.songFileString = songFile.getAbsolutePath();
+		
+		this.songsGivenNameList.add(0, songName); // add the name of each song
+		this.songsFileList.add(0, songFile); // add the file of each song
+
 	}
 
-	public User(String firstName, String lastName, String username, String email, String password, boolean isNew) {
+	public User(String firstName, String lastName, String username,String emailAddress, String password, boolean isNew, String song,  File songFile) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
-		this.email = email;
-		this.address = address;
+
+		this.emailAddress = emailAddress;
+		this.songFileString = songFile.getAbsolutePath();
 		this.isNew = isNew;
+		
+		this.songName = song;
+		this.songFile = songFile;
+		
+		this.songsGivenNameList.add(0, songName); // add the name of each song
+
+		this.songsFileList.add(0, songFile); // add the file of each song
 	}
+	
 
 	public User(String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.isNew = false;
 	}
+	
 
 	public User(int id) {
 		super();
 		this.id = id;
 	}
+	
 
 	public String getFirstName() {
 		return firstName;
@@ -89,19 +133,11 @@ public class User implements Serializable {
 	}
 
 	public String getEmail() {
-		return email;
+		return emailAddress;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
+	public void setEmail(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 	
 	public String getPassword() {
@@ -111,7 +147,6 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 	public boolean isNew() {
 		return isNew;
 	}
@@ -124,8 +159,42 @@ public class User implements Serializable {
 		return id;
 	}
 
+	
+	
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public DefaultListModel<String> getSongsGivenNameList() {
+		return songsGivenNameList;
+	}
+
+	public DefaultListModel<File> getSongsFileList() {
+		return songsFileList;
+	}
+	
+	public File getSongFile() {
+		return songFile;
+	}
+
+	public void getSongFile( File songFile) {
+		this.songFile = songFile;
+	}
+	
+	public String getSongName() {
+		return songName;
+	}
+
+	public void getSongName(String songName) {
+		this.songName = songName;
+	}
+	
+	public String getSongFileString() {
+		return songFileString;
+	}
+
+	public void setSongFileString(String songFileString) {
+		this.songFileString = songFileString;
 	}
 
 }

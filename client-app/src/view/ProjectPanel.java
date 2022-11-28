@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.BoxLayout;
@@ -18,12 +19,17 @@ import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
 import entity.Project;
+import entity.Song;
 import entity.User;
+import kuusisto.tinysound.Music;
+import kuusisto.tinysound.TinySound;
 import services.ProjectEchoClient;
 import services.Singleton;
+import services.SongEchoClient;
 import services.UserEchoClient;
 
 import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
 
 public class ProjectPanel extends JPanel {
 
@@ -36,13 +42,26 @@ public class ProjectPanel extends JPanel {
 	 * Create the panel.
 	 */
 
-	private FieldPanel titlePanel;
+	
+	private User user;
+	
+
+	
 	private JPanel projectInfoPanel = new JPanel();
 	private JLabel projectLabel = new JLabel("");
 	private JEditorPane editorPane = new JEditorPane();
-	private JLabel saveLabel = new JLabel("");
+	
+	private FieldPanel songNamePanel = new FieldPanel("/resources/name.png", "song name");
+	private JLabel saveSongLabel = new JLabel(""); // button to add and save a song
+	private JLabel uploadLabel = new JLabel("Upload Song"); //  button to choose the file
+	
+	private File songFile;
 
-	public ProjectPanel() {
+	public ProjectPanel(User user) {
+		
+		Singleton.setCurrentUser(user); // current user after signing in/up
+        this.user = user;
+		
 		setBackground(Color.WHITE);
 
 		projectInfoPanel.setBackground(Color.WHITE);
@@ -51,13 +70,14 @@ public class ProjectPanel extends JPanel {
 		textPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
 		textPanel.setBackground(Color.WHITE);
 
-		ImageIcon imageIcon = new ImageIcon(ProjectPanel.class.getResource("/resources/doc.jpg"));
+		ImageIcon imageIcon = new ImageIcon(ProjectPanel.class.getResource("/resources/doc.png"));
 
 		projectLabel.setIcon(new ImageIcon(imageIcon.getImage().getScaledInstance(70, 75, Image.SCALE_DEFAULT)));
 
 		JPanel headerPanel = new JPanel();
 		headerPanel.setBackground(Color.WHITE);
 		GroupLayout groupLayout = new GroupLayout(this);
+		
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
 				.createSequentialGroup()
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -119,15 +139,15 @@ public class ProjectPanel extends JPanel {
 						.addComponent(editorPane, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE).addContainerGap()));
 		textPanel.setLayout(gl_textPanel);
 
-		JLabel lblTitle = new JLabel("Title");
+		JLabel lblTitle = new JLabel("Welcome to MUZE!");
 		lblTitle.setLabelFor(lblTitle);
 		lblTitle.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Andalus", Font.PLAIN, 22));
 		lblTitle.setBackground(Color.WHITE);
-		titlePanel = new FieldPanel("/resources/title.png", "title");
+		songNamePanel = new FieldPanel("/resources/title.png", "Song Name");
 
-		titlePanel.setBackground(Color.WHITE);
+		songNamePanel.setBackground(Color.WHITE);
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
@@ -136,25 +156,25 @@ public class ProjectPanel extends JPanel {
 				.addGroup(gl_projectInfoPanel.createSequentialGroup()
 						.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE)
+						.addComponent(songNamePanel, GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE)
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)));
 		gl_projectInfoPanel.setVerticalGroup(gl_projectInfoPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_projectInfoPanel.createSequentialGroup()
 						.addGroup(gl_projectInfoPanel.createParallelGroup(Alignment.TRAILING)
-								.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+								.addComponent(songNamePanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
 										Short.MAX_VALUE)
 								.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
 								.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
 						.addContainerGap()));
 
-		saveLabel.setIcon(new ImageIcon(ProjectPanel.class.getResource("/resources/save.png")));
+		saveSongLabel.setIcon(new ImageIcon(ProjectPanel.class.getResource("/resources/save.png")));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup().addGap(42)
-						.addComponent(saveLabel, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+						.addComponent(saveSongLabel, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(24, Short.MAX_VALUE)));
-		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addComponent(saveLabel,
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addComponent(saveSongLabel,
 				GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE));
 		panel.setLayout(gl_panel);
 		projectInfoPanel.setLayout(gl_projectInfoPanel);
@@ -163,24 +183,196 @@ public class ProjectPanel extends JPanel {
 	}
 
 	public void init() {
-		addMouseListener();
+			addMouseListener();
 	}
-
+	
+	
+	
+   // ----------- start of mouse events
 	private void addMouseListener() {
-		saveLabel.addMouseListener(new MouseAdapter() {
+		
+		
+		saveSongLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String title = titlePanel.getTxtField().getText();
-				String content = editorPane.getText();
-				Project project = new Project(title, content, true, Singleton.getCurrentUser().getId());
+				
+			
+				String song_name = songNamePanel.getTxtField().getText();
+				
+
+				Song uploadedsong = new Song(user.getId(), song_name, songFile.getAbsolutePath());
+
+				
+				Project project = new Project(user.getUsername(), song_name, true, user.getId(), uploadedsong.getId());
+
 				try {
-					Project p = ProjectEchoClient.sendProject(project);
+					SongEchoClient.createSong(uploadedsong);
+					ProjectEchoClient.sendProject(project);
+					
+					
 				} catch (ClassNotFoundException | IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 
 		});
+		
+		
+		uploadLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFileChooser file_upload = new JFileChooser();
+				int save = file_upload.showOpenDialog(null);
+				
+				String songName = songNamePanel.getTxtField().getText();
+
+				
+				if (save == JFileChooser.APPROVE_OPTION) {
+					//Creating a File object
+					songFile = new File(file_upload.getSelectedFile().getAbsolutePath());
+					try {
+
+					      System.out.println("Successful upload of: " + songFile);
+					      System.out.println("Given song name: " + songName);
+					      
+					      //System.out.println("playing song without repeat.");
+					
+					      
+					      
+					      // NEED TO MOVE THIS TO WHEN A SONG IS PRESSED TO PLAY
+					  	    //initialize TinySound
+							TinySound.init();
+	
+							//load with Files, URLs or InputStreams
+							Music song = TinySound.loadMusic(songFile);
+							//start playing the music on loop
+							//song.play(false);
+
+						
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				    
+				}
+			}
+		});
+		
+		
+		
+		playSongLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				if (save == JFileChooser.APPROVE_OPTION) {
+					//Creating a File object
+					songFile = new File(file_upload.getSelectedFile().getAbsolutePath());
+					try {
+
+					      System.out.println("Successful upload of: " + songFile);
+					      System.out.println("Given song name: " + songName);
+					      
+					      //System.out.println("playing song without repeat.");
+					
+					      
+					      
+					      // NEED TO MOVE THIS TO WHEN A SONG IS PRESSED TO PLAY
+					  	    //initialize TinySound
+							TinySound.init();
+	
+							//load with Files, URLs or InputStreams
+							Music song = TinySound.loadMusic(songFile);
+							//start playing the music on loop
+							//song.play(false);
+
+						
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				    
+				}
+			}
+		});
+
+		
+		
+		// ----- end of mouse events
 	}
 }
+
+
+
+// REFERENCE CODE
+//
+//private void addMouseListener() {
+//	saveLabel.addMouseListener(new MouseAdapter() {
+//		@Override
+//		public void mouseClicked(MouseEvent e) {
+//			String username = usernamePanel.getTxtField().getText();
+//			String password = passwordPanel.getTxtField().getText();
+//			String firstName = firstNamePanel.getTxtField().getText();
+//			String lastName = lastNamePanel.getTxtField().getText();
+//
+//			String emailAddress = emailAddressPanel.getTxtField().getText();
+//			String song = SongNamePanel.getTxtField().getText();
+//			// need to input the song and save it here: and change type from string here and in User.java
+//							
+//			User user = new User(firstName, lastName, username, emailAddress, password, true, song, songFile);
+//			try {
+//				user = UserEchoClient.createUser(user);
+//				if (user.getId() > 0) {
+//					Singleton.setCurrentUser(user);
+//					Song uploadedSong = SongEchoClient.createSong(new Song(user.getId(), song, songFile.getAbsolutePath()));
+//					Project newPr = ProjectEchoClient.sendProject(new Project(user.getUsername(), song, true, user.getId(), uploadedSong.getId()));
+//					frameController.navigateToProject(new ProjectPanel());
+//					
+//				}
+//
+//			} catch (ClassNotFoundException | IOException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//		}
+//
+//	});
+//	
+//	uploadLabel.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				JFileChooser file_upload = new JFileChooser();
+////				int res = file_upload.showOpenDialog(null);
+//				int save = file_upload.showOpenDialog(null);
+//				
+//				String songName = SongNamePanel.getTxtField().getText();
+//
+//				
+//				if (save == JFileChooser.APPROVE_OPTION) {
+//					//Creating a File object
+//					songFile = new File(file_upload.getSelectedFile().getAbsolutePath());
+//					try {
+//
+//					      System.out.println("Successful upload of: " + songFile);
+//					      System.out.println("Given song name: " + songName);
+//					      
+//					      //System.out.println("playing song without repeat.");
+//					
+//					  	    //initialize TinySound
+//							TinySound.init();
+//	
+//							//load with Files, URLs or InputStreams
+//							Music song = TinySound.loadMusic(songFile);
+//							//start playing the music on loop
+//							//song.play(false);
+//
+//						
+//					} catch (Exception e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//					}
+//				    
+//				}
+//			}
+//		});
+//}
+//}

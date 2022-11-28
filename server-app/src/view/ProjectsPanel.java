@@ -1,20 +1,34 @@
 package view;
 
+
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.MenuItem;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.security.auth.Refreshable;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.FontUIResource;
@@ -22,16 +36,26 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import database.ProjectsQuery;
+import database.SongsQuery;
+import entity.Song;
 
 public class ProjectsPanel extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private String displayLabel = "songs";
+	
 	private JTable table;
 	private JLabel projectLabel = new JLabel("");
 	private JLabel refreshLabel = new JLabel("");
-
+	
+	 private JRadioButton rdbtnUser = new JRadioButton("User");
+	 private JRadioButton rdbtnSong = new JRadioButton("Song");
+	 private JRadioButton rdbtnSearch = new JRadioButton("Search");
+	 
+     private JLabel UploadNewSong = new JLabel("Upload");
+	
 	/**
 	 * Create the panel.
 	 */
@@ -47,14 +71,56 @@ public class ProjectsPanel extends JPanel {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
+		
+		
+		///-----
 
-		projectLabel.setIcon(new ImageIcon(ProjectsPanel.class.getResource("/resources/contract (1).png")));
+		JButton btnSearch = new JButton("Search");
+		
+		final JPopupMenu playlistMenu = new JPopupMenu();
+		JMenuItem createPlaylistOption = new JMenuItem("Play");
+		JMenuItem deletePlaylistOption = new JMenuItem("Download");
+		
 
-		JLabel lblProjects = new JLabel("MUZE");
+		rdbtnUser.setForeground(Color.GREEN);
+		rdbtnUser.setOpaque(true);
+		rdbtnUser.setHorizontalAlignment(SwingConstants.CENTER);
+		rdbtnUser.setFont(new Font("SansSerif", Font.BOLD, 14));
+		
+		
+		rdbtnSong.setForeground(Color.GREEN);
+		rdbtnSong.setOpaque(true);
+		rdbtnSong.setHorizontalAlignment(SwingConstants.CENTER);
+		rdbtnSong.setFont(new Font("SansSerif", Font.BOLD, 14));
+		
+		rdbtnSearch.setForeground(Color.GREEN);
+		rdbtnSearch.setOpaque(true);
+		rdbtnSearch.setHorizontalAlignment(SwingConstants.CENTER);
+		rdbtnSearch.setFont(new Font("SansSerif", Font.BOLD, 14));
+		
+		///-------
+
+		projectLabel.setIcon(new ImageIcon(ProjectsPanel.class.getResource("/resources/account.png")));
+		
+
+		JLabel lblProjects = new JLabel("MUZE Server");
 		lblProjects.setHorizontalAlignment(SwingConstants.CENTER);
 		lblProjects.setForeground(Color.BLACK);
 		lblProjects.setFont(new Font("Andalus", Font.BOLD, 40));
 		lblProjects.setBackground(Color.WHITE);
+		// ----
+		GroupLayout groupLayout0 = new GroupLayout(this);
+		groupLayout0.setHorizontalGroup(groupLayout0.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout0
+				.createSequentialGroup().addContainerGap()
+				.addGroup(groupLayout0.createParallelGroup(Alignment.LEADING)
+						.addComponent(rdbtnUser, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+						.addComponent(rdbtnSong, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+						.addComponent(rdbtnSearch, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
+				.addContainerGap()));
+		panel.setLayout(groupLayout0);
+		
+			
+		// ----
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup().addGap(26)
@@ -101,6 +167,7 @@ public class ProjectsPanel extends JPanel {
 						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE).addContainerGap()));
 
 		refreshLabel.setIcon(new ImageIcon(ProjectsPanel.class.getResource("/resources/refresh (1).png")));
+		
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(gl_panel_2.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
 				gl_panel_2.createSequentialGroup().addContainerGap(715, Short.MAX_VALUE).addComponent(refreshLabel,
@@ -109,7 +176,7 @@ public class ProjectsPanel extends JPanel {
 				GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE));
 		panel_2.setLayout(gl_panel_2);
 
-		table = new JTable(ProjectsQuery.findProjectsForDataTable(), new String[] { "Title", "Content", "User" });
+		table = new JTable(ProjectsQuery.findProjectsForDataTable(), new String[] { "User", "Song" });
 		table.setRowHeight(50);
 		table.getTableHeader().setBackground(Color.white);
 		table.getTableHeader().setFont(new Font("Andalus", Font.BOLD, 22));
@@ -118,23 +185,53 @@ public class ProjectsPanel extends JPanel {
 		table.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLACK));
 		setLayout(groupLayout);
 
-	}
+	};
+	
+
 
 	private void addMouseListener() {
 		refreshLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				table.setModel(new DefaultTableModel(ProjectsQuery.findProjectsForDataTable(),
-						new String[] { "Title", "Content", "User" }));
+						new String[] { "User", "Song" }));
 				((AbstractTableModel) table.getModel()).fireTableDataChanged();
 				System.out.println("refreshed");
 
 			}
 
 		});
-	}
-
+		
+		rdbtnSong.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				displayLabel = "Songs";
+			}
+		});
+		
+		
+		rdbtnUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				displayLabel = "Users";
+			}
+		});
+				
+		//When SEARCH is clicked
+		rdbtnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				//...
+				
+			}
+		});
+			
+		
+	};
+	
+	
 	public void init() {
 		addMouseListener();
+		
+		
 	}
 }
+
