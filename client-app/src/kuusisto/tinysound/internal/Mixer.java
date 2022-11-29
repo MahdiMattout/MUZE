@@ -7,7 +7,7 @@
  *
  *     Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
- *     
+ *
  *     Redistributions in binary form must reproduce the above copyright notice,
  *     this list of conditions and the following disclaimer in the documentation
  *     and/or other materials provided with the distribution.
@@ -33,26 +33,26 @@ import java.util.List;
  * The Mixer class is what does the audio data mixing for the TinySound system.
  * Mixer is an internal class of the TinySound system and should be of no real
  * concern to the average user of TinySound.
- * 
+ *
  * @author Finn Kuusisto
  */
 public class Mixer {
-	
+
 	private List<MusicReference> musics;
 	private List<SoundReference> sounds;
 	private double globalVolume;
 	private int[] dataBuf; //buffer for reading sound data
-	
+
 	/**
 	 * Construct a new Mixer for TinySound system.
 	 */
 	public Mixer() {
-		this.musics = new ArrayList<MusicReference>();
-		this.sounds = new ArrayList<SoundReference>();
+		this.musics = new ArrayList<>();
+		this.sounds = new ArrayList<>();
 		this.globalVolume = 1.0;
 		this.dataBuf = new int[2]; //2-channel
 	}
-	
+
 	/**
 	 * Get the global volume for this Mixer.
 	 * @return the global volume
@@ -60,7 +60,7 @@ public class Mixer {
 	public synchronized double getVolume() {
 		return this.globalVolume;
 	}
-	
+
 	/**
 	 * Set the global volume for this Mixer.
 	 * @param volume the global volume to set
@@ -70,7 +70,7 @@ public class Mixer {
 			this.globalVolume = volume;
 		}
 	}
-	
+
 	/**
 	 * Registers a MusicReference with this Mixer.
 	 * @param music MusicReference to be registered
@@ -78,7 +78,7 @@ public class Mixer {
 	public synchronized void registerMusicReference(MusicReference music) {
 		this.musics.add(music);
 	}
-	
+
 	/**
 	 * Registers a SoundReference with this Mixer.
 	 * @param sound SoundReference to be registered
@@ -86,7 +86,7 @@ public class Mixer {
 	public synchronized void registerSoundReference(SoundReference sound) {
 		this.sounds.add(sound);
 	}
-	
+
 	/**
 	 * Unregisters a MusicReference with this Mixer.
 	 * @param music MusicReference to be unregistered
@@ -94,7 +94,7 @@ public class Mixer {
 	public synchronized void unRegisterMusicReference(MusicReference music) {
 		this.musics.remove(music);
 	}
-	
+
 	/**
 	 * Unregisters all SoundReferences with a given soundID.
 	 * @param soundID ID of SoundReferences to be unregistered
@@ -107,14 +107,14 @@ public class Mixer {
 			}
 		}
 	}
-	
+
 	/**
 	 * Unregister all Music registered with this Mixer.
 	 */
 	public synchronized void clearMusic() {
 		this.musics.clear();
 	}
-	
+
 	/**
 	 * Unregister all Sounds registered with this Mixer.
 	 */
@@ -124,7 +124,7 @@ public class Mixer {
 		}
 		this.sounds.clear();
 	}
-	
+
 	/**
 	 * Read bytes from this Mixer.
 	 * @param data the buffer to read the bytes into
@@ -145,8 +145,7 @@ public class Mixer {
 			double leftValue = 0.0;
 			double rightValue = 0.0;
 			//go through all the music first
-			for (int m = 0; m < this.musics.size(); m++) {
-				MusicReference music = this.musics.get(m);
+			for (MusicReference music : this.musics) {
 				//is the music playing and are there bytes available
 				if (music.getPlaying() && music.bytesAvailable() > 0) {
 					//add this music to the mix by volume (and global volume)
@@ -238,15 +237,14 @@ public class Mixer {
 		}
 		return numRead;
 	}
-	
+
 	/**
 	 * Skip specified number of bytes of all audio in this Mixer.
 	 * @param numBytes the number of bytes to skip
 	 */
 	public synchronized void skip(int numBytes) {
 		//go through all the music first
-		for (int m = 0; m < this.musics.size(); m++) {
-			MusicReference music = this.musics.get(m);
+		for (MusicReference music : this.musics) {
 			//is the music playing and are there bytes available
 			if (music.getPlaying() && music.bytesAvailable() > 0) {
 				//skip the bytes

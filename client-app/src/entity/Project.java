@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Project implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	public int id;
@@ -70,7 +70,7 @@ public class Project implements Serializable {
 	public int getSongId() {
 		return this.songId;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}

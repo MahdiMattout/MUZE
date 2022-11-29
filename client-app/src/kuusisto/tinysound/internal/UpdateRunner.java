@@ -7,7 +7,7 @@
  *
  *     Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
- *     
+ *
  *     Redistributions in binary form must reproduce the above copyright notice,
  *     this list of conditions and the following disclaimer in the documentation
  *     and/or other materials provided with the distribution.
@@ -36,15 +36,15 @@ import kuusisto.tinysound.TinySound;
  * updates of the TinySound system.  UpdateRunner is an internal class of the
  * TinySound system and should be of no real concern to the average user of
  * TinySound.
- * 
+ *
  * @author Finn Kuusisto
  */
 public class UpdateRunner implements Runnable {
-		
+
 		private AtomicBoolean running;
 		private SourceDataLine outLine;
 		private Mixer mixer;
-		
+
 		/**
 		 * Constructs a new UpdateRunner to update the TinySound system.
 		 * @param mixer the mixer to read audio data from
@@ -55,7 +55,7 @@ public class UpdateRunner implements Runnable {
 			this.mixer = mixer;
 			this.outLine = outLine;
 		}
-		
+
 		/**
 		 * Stop this UpdateRunner from updating the TinySound system.
 		 */
@@ -72,7 +72,7 @@ public class UpdateRunner implements Runnable {
 				TinySound.FORMAT.getFrameSize();
 			byte[] audioBuffer = new byte[bufSize];
 			//only buffer some maximum number of frames each update (25ms)
-			int maxFramesPerUpdate = 
+			int maxFramesPerUpdate =
 				(int)((TinySound.FORMAT.getFrameRate() / 1000) * 25);
 			int numBytesRead = 0;
 			double framesAccrued = 0;
@@ -84,7 +84,7 @@ public class UpdateRunner implements Runnable {
 				//accrue frames
 				double delta = currTime - lastUpdate;
 				double secDelta = (delta / 1000000000L);
-				framesAccrued += secDelta * TinySound.FORMAT.getFrameRate(); 
+				framesAccrued += secDelta * TinySound.FORMAT.getFrameRate();
 				//read frames if needed
 				int framesToRead = (int)framesAccrued;
 				int framesToSkip = 0;
@@ -129,5 +129,5 @@ public class UpdateRunner implements Runnable {
 				} catch (InterruptedException e) {}
 			}
 		}
-		
+
 	}

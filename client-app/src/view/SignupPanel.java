@@ -1,30 +1,25 @@
 package view;
 
 import java.awt.Color;
-
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JFileChooser;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
-
 
 import controller.MainFrameController;
 import entity.Project;
 import entity.Song;
 import entity.User;
-import kuusisto.tinysound.Music;
-import kuusisto.tinysound.Sound;
-import kuusisto.tinysound.TinySound;
+import services.FileClient;
 import services.ProjectEchoClient;
 import services.Singleton;
 import services.SongEchoClient;
@@ -35,25 +30,25 @@ public class SignupPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	
+
 	private FieldPanel usernamePanel = new FieldPanel("/resources/account.png", "username");
 
 	private PasswordPanel passwordPanel = new PasswordPanel("/resources/lock.png", "password");
 
 	private FieldPanel firstNamePanel = new FieldPanel("/resources/name.png", "first name");
-	
+
 	private FieldPanel lastNamePanel = new FieldPanel("/resources/name.png", "last name");
-	
+
 	private FieldPanel SongNamePanel = new FieldPanel("/resources/name.png", "song name");
-	
+
 	private FieldPanel emailAddressPanel = new FieldPanel("/resources/account.png", "email (e.g. yyy@gmail.com)");
-	
+
 	private JLabel uploadLabel = new JLabel("Upload file");
-	
+
 	private JLabel saveLabel = new JLabel("Sign Up");
 
 	private MainFrameController frameController;
-	
+
 	private File songFile;
 
 	public SignupPanel(MainFrameController frameController) {
@@ -66,7 +61,7 @@ public class SignupPanel extends JPanel {
 		saveLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		saveLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
 		saveLabel.setBackground(new Color(15, 157, 88));
-		
+
 		uploadLabel.setForeground(Color.GREEN);
 		uploadLabel.setOpaque(true);
 		uploadLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -124,16 +119,17 @@ public class SignupPanel extends JPanel {
 				String emailAddress = emailAddressPanel.getTxtField().getText();
 				String song = SongNamePanel.getTxtField().getText();
 				// need to input the song and save it here: and change type from string here and in User.java
-								
+
 				User user = new User(firstName, lastName, username, emailAddress, password, true, song, songFile);
 				try {
+					FileClient.uploadSong(songFile);
 					user = UserEchoClient.createUser(user);
 					if (user.getId() > 0) {
 						Singleton.setCurrentUser(user);
 						Song uploadedSong = SongEchoClient.createSong(new Song(user.getId(), song, songFile.getAbsolutePath()));
 						Project newPr = ProjectEchoClient.sendProject(new Project(user.getUsername(), song, true, user.getId(), uploadedSong.getId()));
 						frameController.navigateToProject(new ClientPanel(user));
-						
+
 					}
 
 				} catch (ClassNotFoundException | IOException e1) {
@@ -143,17 +139,17 @@ public class SignupPanel extends JPanel {
 			}
 
 		});
-		
+
 		uploadLabel.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					JFileChooser file_upload = new JFileChooser();
 //					int res = file_upload.showOpenDialog(null);
 					int save = file_upload.showOpenDialog(null);
-					
+
 					String songName = SongNamePanel.getTxtField().getText();
 
-					
+
 					if (save == JFileChooser.APPROVE_OPTION) {
 						//Creating a File object
 						songFile = new File(file_upload.getSelectedFile().getAbsolutePath());
@@ -161,20 +157,20 @@ public class SignupPanel extends JPanel {
 
 						      System.out.println("Successful upload of: " + songFile);
 						      System.out.println("Given song name: " + songName);
-						      						
+
 						  	    //initialize TinySound
 //								TinySound.init();
 //								Music song = TinySound.loadMusic(songFile);
-//								
+//
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
-					    
+
 					}
 				}
 			});
 	}
-	
-	
-	
+
+
+
 }

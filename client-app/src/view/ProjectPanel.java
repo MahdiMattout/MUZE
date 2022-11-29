@@ -1,20 +1,21 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
+import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
@@ -26,15 +27,11 @@ import kuusisto.tinysound.TinySound;
 import services.ProjectEchoClient;
 import services.Singleton;
 import services.SongEchoClient;
-import services.UserEchoClient;
-
-import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
 
 public class ProjectPanel extends JPanel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -42,32 +39,32 @@ public class ProjectPanel extends JPanel {
 	 * Create the panel.
 	 */
 
-	
-	private User user;
-	
 
-	
+	private User user;
+
+
+
 	private JPanel projectInfoPanel = new JPanel();
 	private JLabel projectLabel = new JLabel("");
 	private JEditorPane editorPane = new JEditorPane();
-	
+
 	private FieldPanel songNamePanel = new FieldPanel("/resources/name.png", "song name");
 	private JLabel saveSongLabel = new JLabel(""); // button to add and save a song
 	private JLabel uploadLabel = new JLabel("Upload Song"); //  button to choose the file
-	
+
 	private File songFile;
 
 	public ProjectPanel(User user) {
-		
+
 		Singleton.setCurrentUser(user); // current user after signing in/up
         this.user = user;
-		
+
 		setBackground(Color.WHITE);
 
 		projectInfoPanel.setBackground(Color.WHITE);
 
 		JPanel textPanel = new JPanel();
-		textPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
+		textPanel.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
 		textPanel.setBackground(Color.WHITE);
 
 		ImageIcon imageIcon = new ImageIcon(ProjectPanel.class.getResource("/resources/doc.png"));
@@ -77,7 +74,7 @@ public class ProjectPanel extends JPanel {
 		JPanel headerPanel = new JPanel();
 		headerPanel.setBackground(Color.WHITE);
 		GroupLayout groupLayout = new GroupLayout(this);
-		
+
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
 				.createSequentialGroup()
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -141,7 +138,7 @@ public class ProjectPanel extends JPanel {
 
 		JLabel lblTitle = new JLabel("Welcome to MUZE!");
 		lblTitle.setLabelFor(lblTitle);
-		lblTitle.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
+		lblTitle.setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Andalus", Font.PLAIN, 22));
 		lblTitle.setBackground(Color.WHITE);
@@ -185,48 +182,48 @@ public class ProjectPanel extends JPanel {
 	public void init() {
 			addMouseListener();
 	}
-	
-	
-	
+
+
+
    // ----------- start of mouse events
 	private void addMouseListener() {
-		
-		
+
+
 		saveSongLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-			
+
+
 				String song_name = songNamePanel.getTxtField().getText();
-				
+
 
 				Song uploadedsong = new Song(user.getId(), song_name, songFile.getAbsolutePath());
 
-				
+
 				Project project = new Project(user.getUsername(), song_name, true, user.getId(), uploadedsong.getId());
 
 				try {
 					SongEchoClient.createSong(uploadedsong);
 					ProjectEchoClient.sendProject(project);
-					
-					
+
+
 				} catch (ClassNotFoundException | IOException e1) {
 					e1.printStackTrace();
 				}
 			}
 
 		});
-		
-		
+
+
 		uploadLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JFileChooser file_upload = new JFileChooser();
 				int save = file_upload.showOpenDialog(null);
-				
+
 				String songName = songNamePanel.getTxtField().getText();
 
-				
+
 				if (save == JFileChooser.APPROVE_OPTION) {
 					//Creating a File object
 					songFile = new File(file_upload.getSelectedFile().getAbsolutePath());
@@ -234,36 +231,36 @@ public class ProjectPanel extends JPanel {
 
 					      System.out.println("Successful upload of: " + songFile);
 					      System.out.println("Given song name: " + songName);
-					      
+
 					      //System.out.println("playing song without repeat.");
-					
-					      
-					      
+
+
+
 					      // NEED TO MOVE THIS TO WHEN A SONG IS PRESSED TO PLAY
 					  	    //initialize TinySound
 							TinySound.init();
-	
+
 							//load with Files, URLs or InputStreams
 							Music song = TinySound.loadMusic(songFile);
 							//start playing the music on loop
 							//song.play(false);
 
-						
+
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-				    
+
 				}
 			}
 		});
-		
-		
-		
+
+
+
 		playSongLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 				if (save == JFileChooser.APPROVE_OPTION) {
 					//Creating a File object
 					songFile = new File(file_upload.getSelectedFile().getAbsolutePath());
@@ -271,32 +268,32 @@ public class ProjectPanel extends JPanel {
 
 					      System.out.println("Successful upload of: " + songFile);
 					      System.out.println("Given song name: " + songName);
-					      
+
 					      //System.out.println("playing song without repeat.");
-					
-					      
-					      
+
+
+
 					      // NEED TO MOVE THIS TO WHEN A SONG IS PRESSED TO PLAY
 					  	    //initialize TinySound
 							TinySound.init();
-	
+
 							//load with Files, URLs or InputStreams
 							Music song = TinySound.loadMusic(songFile);
 							//start playing the music on loop
 							//song.play(false);
 
-						
+
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-				    
+
 				}
 			}
 		});
 
-		
-		
+
+
 		// ----- end of mouse events
 	}
 }
@@ -317,7 +314,7 @@ public class ProjectPanel extends JPanel {
 //			String emailAddress = emailAddressPanel.getTxtField().getText();
 //			String song = SongNamePanel.getTxtField().getText();
 //			// need to input the song and save it here: and change type from string here and in User.java
-//							
+//
 //			User user = new User(firstName, lastName, username, emailAddress, password, true, song, songFile);
 //			try {
 //				user = UserEchoClient.createUser(user);
@@ -326,7 +323,7 @@ public class ProjectPanel extends JPanel {
 //					Song uploadedSong = SongEchoClient.createSong(new Song(user.getId(), song, songFile.getAbsolutePath()));
 //					Project newPr = ProjectEchoClient.sendProject(new Project(user.getUsername(), song, true, user.getId(), uploadedSong.getId()));
 //					frameController.navigateToProject(new ProjectPanel());
-//					
+//
 //				}
 //
 //			} catch (ClassNotFoundException | IOException e1) {
@@ -336,17 +333,17 @@ public class ProjectPanel extends JPanel {
 //		}
 //
 //	});
-//	
+//
 //	uploadLabel.addMouseListener(new MouseAdapter() {
 //			@Override
 //			public void mouseClicked(MouseEvent e) {
 //				JFileChooser file_upload = new JFileChooser();
 ////				int res = file_upload.showOpenDialog(null);
 //				int save = file_upload.showOpenDialog(null);
-//				
+//
 //				String songName = SongNamePanel.getTxtField().getText();
 //
-//				
+//
 //				if (save == JFileChooser.APPROVE_OPTION) {
 //					//Creating a File object
 //					songFile = new File(file_upload.getSelectedFile().getAbsolutePath());
@@ -354,23 +351,23 @@ public class ProjectPanel extends JPanel {
 //
 //					      System.out.println("Successful upload of: " + songFile);
 //					      System.out.println("Given song name: " + songName);
-//					      
+//
 //					      //System.out.println("playing song without repeat.");
-//					
+//
 //					  	    //initialize TinySound
 //							TinySound.init();
-//	
+//
 //							//load with Files, URLs or InputStreams
 //							Music song = TinySound.loadMusic(songFile);
 //							//start playing the music on loop
 //							//song.play(false);
 //
-//						
+//
 //					} catch (Exception e1) {
 //						// TODO Auto-generated catch block
 //						e1.printStackTrace();
 //					}
-//				    
+//
 //				}
 //			}
 //		});

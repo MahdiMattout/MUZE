@@ -1,6 +1,7 @@
 package controller;
 
-import javax.swing.JFrame;
+import java.awt.Frame;
+
 import javax.swing.JPanel;
 
 import view.MainFrame;
@@ -20,7 +21,7 @@ public class MainFrameController {
 		projectPanel.setPreferredSize(contentPanel.getPreferredSize());
 		contentPanel.repaint();
 		contentPanel.validate();
-		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+		frame.setExtendedState(frame.getExtendedState() | Frame.MAXIMIZED_BOTH);
 
 	}
 

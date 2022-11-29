@@ -1,2 +1,7 @@
 /services/
 /view/
+/controller/
+/entity/
+/kuusisto/
+/resources/
+/utils/
