@@ -119,7 +119,6 @@ public class SignupPanel extends JPanel {
 				String emailAddress = emailAddressPanel.getTxtField().getText();
 				String song = SongNamePanel.getTxtField().getText();
 				// need to input the song and save it here: and change type from string here and in User.java
-
 				User user = new User(firstName, lastName, username, emailAddress, password, true, song, songFile);
 				try {
 					FileClient.uploadSong(songFile);

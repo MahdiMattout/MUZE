@@ -1,5 +1,6 @@
 package services;
 
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,6 +13,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.Base64;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.TargetDataLine;
@@ -105,20 +107,23 @@ public class FileServer extends Thread {
 			}
 		}
 
-		private File handleRequest() throws Exception {
-			File f = null;
-			InputStream input = clientSocket.getInputStream();
-//			ObjectInputStream ois = new ObjectInputStream(input);
-//			int size = ois.readInt();
-//			AudioInputStream audio = new AudioInputStream((TargetDataLine) clientSocket.getInputStream());
-//			audio.read(b, 0, b.length);
-			FileOutputStream fs = new FileOutputStream(Constants.songsFolder);
-			int fileSize = input.read();
-			byte[] b = new byte[fileSize];
-			input.read(b, 0, b.length);
-			fs.write(b, 0, b.length);
-			return f;
-
+		private void handleRequest() throws Exception {
+			File f;
+			InputStream in = clientSocket.getInputStream();
+//			FileInputStream fs = new FileInputStream(filePath);
+			byte [] name = new byte[64000];
+			byte[] file = new byte[17000000];
+			in.read(name);
+			String fileName = new String(name);
+			System.out.println(fileName);
+			in.read(file);
+			FileOutputStream fs = new FileOutputStream(Constants.TRANSFERRED_FILES_PATH + fileName);
+			fs.write(file);
+//			OutputStream os = clientSocket.getOutputStream();
+//			os.write(b, 0, b.length);
+			System.out.println("Habibi Khaled");
+			fs.flush();
+			fs.close();
 		}
 
 //		private void respond(Song song) throws IOException {

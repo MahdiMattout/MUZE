@@ -1,5 +1,7 @@
 package services;
 
+import java.io.BufferedInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,7 +15,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.TargetDataLine;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import utils.Constants;
 
@@ -64,14 +68,21 @@ public class FileClient {
 	public static void uploadSong(File file) throws IOException {
 		FileClient.init();
 		byte[] b = new byte[(int) file.length()];
-//		InputStream is = clientSocket.getInputStream();
-//		ObjectOutputStream os = new ObjectOutputStream(clientSocket.getOutputStream());
-//		os.writeInt((int) file.length());
-		FileInputStream fis= new FileInputStream(file.getAbsoluteFile());
-		fis.read(b, 0, b.length);
-		OutputStream os = clientSocket.getOutputStream();
-		os.write((int) file.length());
-		os.write(b, 0, b.length);
+		FileInputStream fs = new FileInputStream(file);
+		fs.read(b);
+		OutputStream out = clientSocket.getOutputStream();
+		byte[] path = file.getName().getBytes();
+		out.write(path);
+//		BufferedInputStream buffered = new BufferedInputStream(clientSocket.getInputStream());
+//		AudioInputStream ais = AudioSystem.getAudioInputStream(buffered);
+//		DataOutputStream data = new DataOutputStream(clientSocket.getOutputStream());
+//		data.writeUTF(file.getAbsolutePath());
+//		data.writeInt((int) file.length());
+//		ais.read(b, 0, b.length);
+//		FileOutputStream fs= new FileOutputStream(Constants.TRANSFERRED_FILES_PATH+file.getName());
+		out.write(b);
+		out.flush();
+		fs.close();
 	}
 
 	public static void stopConnection() {
