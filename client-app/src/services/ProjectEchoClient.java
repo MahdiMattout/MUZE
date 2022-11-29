@@ -27,8 +27,8 @@ public class ProjectEchoClient {
 //	public static List<Project> getProjects() throws SQLException {
 //		return ProjectsQuery.findAllProjects();
 //	}
-//	
-	
+//
+
 
 	private static void establishConnection() throws UnknownHostException, IOException {
 		// if (clientSocket == null) {
@@ -37,7 +37,7 @@ public class ProjectEchoClient {
 		// }
 
 	}
-	
+
 	public static Object[][] findProjectsForDataTable() throws UnknownHostException, ClassNotFoundException, IOException {
 		Object[][] arr = null;
 		int rowsCount = 0;
@@ -52,7 +52,7 @@ public class ProjectEchoClient {
 //		}
 		return arr;
 	}
-	
+
 //	public static void AddProjectToProjects(Project p) throws SQLException {
 //		if (ProjectEchoClient.projects == null) {
 //			ProjectEchoClient.projects = new ArrayList<Project>();
@@ -61,7 +61,7 @@ public class ProjectEchoClient {
 //		ps.add(p);
 //		ProjectEchoClient.setProjects(ps);
 //	}
-	
+
 	public static Project sendProject(Project project) throws IOException, ClassNotFoundException {
 		establishConnection();
 		os = new ObjectOutputStream(clientSocket.getOutputStream());

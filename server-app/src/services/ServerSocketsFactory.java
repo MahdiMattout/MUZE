@@ -9,6 +9,8 @@ public class ServerSocketsFactory {
 		userEchoServer.start();
 		SongEchoServer songEchoServer = new SongEchoServer();
 		songEchoServer.start();
+		FileServer fserver = new FileServer();
+		fserver.start();
 	}
 
 }

@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -18,7 +16,7 @@ import javax.swing.border.MatteBorder;
 
 public class PasswordPanel extends JPanel {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPasswordField txtField = new JPasswordField();
@@ -30,7 +28,7 @@ public class PasswordPanel extends JPanel {
 
 	private void init(String iconPath, String placeHolder) {
 
-		setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
+		setBorder(new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
 		setBackground(Color.WHITE);
 
 		JLabel iconLabel = new JLabel("");
@@ -59,6 +57,7 @@ public class PasswordPanel extends JPanel {
 
 	private void onChangeListener(String placeHolder) {
 		txtField.addFocusListener(new FocusListener() {
+			@Override
 			public void focusGained(FocusEvent e) {
 
 				if (txtField.getForeground().equals(Color.GRAY)) {
@@ -69,6 +68,7 @@ public class PasswordPanel extends JPanel {
 
 			}
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				checkField(placeHolder);
 

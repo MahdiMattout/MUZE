@@ -7,7 +7,7 @@
  *
  *     Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
- *     
+ *
  *     Redistributions in binary form must reproduce the above copyright notice,
  *     this list of conditions and the following disclaimer in the documentation
  *     and/or other materials provided with the distribution.
@@ -36,15 +36,15 @@ import kuusisto.tinysound.TinySound;
 /**
  * The StreamMusic class is an implementation of the Music interface that
  * streams audio data from a temporary file to reduce memory overhead.
- * 
+ *
  * @author Finn Kuusisto
  */
 public class StreamMusic implements Music {
-	
+
 	private URL dataURL;
 	private Mixer mixer;
 	private MusicReference reference;
-	
+
 	/**
 	 * Construct a new StreamMusic with the given data and the Mixer with which
 	 * to register this StreamMusic.
@@ -72,7 +72,7 @@ public class StreamMusic implements Music {
 		this.reference.setLoop(loop);
 		this.reference.setPlaying(true);
 	}
-	
+
 	/**
 	 * Play this StreamMusic at the specified volume and loop if specified.
 	 * @param loop if this StreamMusic should loop
@@ -84,7 +84,7 @@ public class StreamMusic implements Music {
 		this.setVolume(volume);
 		this.reference.setPlaying(true);
 	}
-	
+
 	/**
 	 * Play this StreamMusic at the specified volume and pan, and loop if
 	 * specified.
@@ -100,7 +100,7 @@ public class StreamMusic implements Music {
 		this.setPan(pan);
 		this.reference.setPlaying(true);
 	}
-	
+
 	/**
 	 * Stop playing this StreamMusic and set its position to the beginning.
 	 */
@@ -109,7 +109,7 @@ public class StreamMusic implements Music {
 		this.reference.setPlaying(false);
 		this.rewind();
 	}
-	
+
 	/**
 	 * Stop playing this StreamMusic and keep its current position.
 	 */
@@ -117,7 +117,7 @@ public class StreamMusic implements Music {
 	public void pause() {
 		this.reference.setPlaying(false);
 	}
-	
+
 	/**
 	 * Play this StreamMusic from its current position.
 	 */
@@ -125,7 +125,7 @@ public class StreamMusic implements Music {
 	public void resume() {
 		this.reference.setPlaying(true);
 	}
-	
+
 	/**
 	 * Set this StreamMusic's position to the beginning.
 	 */
@@ -133,7 +133,7 @@ public class StreamMusic implements Music {
 	public void rewind() {
 		this.reference.setPosition(0);
 	}
-	
+
 	/**
 	 * Set this StreamMusic's position to the loop position.
 	 */
@@ -142,7 +142,7 @@ public class StreamMusic implements Music {
 		long byteIndex = this.reference.getLoopPosition();
 		this.reference.setPosition(byteIndex);
 	}
-	
+
 	/**
 	 * Determine if this StreamMusic is playing.
 	 * @return true if this StreamMusic is playing
@@ -151,7 +151,7 @@ public class StreamMusic implements Music {
 	public boolean playing() {
 		return this.reference.getPlaying();
 	}
-	
+
 	/**
 	 * Determine if this StreamMusic has reached its end and is done playing.
 	 * @return true if this StreamMusic has reached the end and is done playing
@@ -160,7 +160,7 @@ public class StreamMusic implements Music {
 	public boolean done() {
 		return this.reference.done();
 	}
-	
+
 	/**
 	 * Determine if this StreamMusic will loop.
 	 * @return true if this StreamMusic will loop
@@ -169,7 +169,7 @@ public class StreamMusic implements Music {
 	public boolean loop() {
 		return this.reference.getLoop();
 	}
-	
+
 	/**
 	 * Set whether this StreamMusic will loop.
 	 * @param loop whether this StreamMusic will loop
@@ -213,7 +213,7 @@ public class StreamMusic implements Music {
 		//get the byte index for a channel
 		int bytesPerChannelForFrame = TinySound.FORMAT.getFrameSize() /
 			TinySound.FORMAT.getChannels();
-		long byteIndex = (long)(frameIndex * bytesPerChannelForFrame);
+		long byteIndex = frameIndex * bytesPerChannelForFrame;
 		this.reference.setLoopPosition(byteIndex);
 	}
 
@@ -230,7 +230,7 @@ public class StreamMusic implements Music {
 			bytesPerChannelForFrame;
 		this.reference.setLoopPosition(byteIndex);
 	}
-	
+
 	/**
 	 * Get the volume of this StreamMusic.
 	 * @return volume of this StreamMusic
@@ -239,7 +239,7 @@ public class StreamMusic implements Music {
 	public double getVolume() {
 		return this.reference.getVolume();
 	}
-	
+
 	/**
 	 * Set the volume of this StreamMusic.
 	 * @param volume the desired volume of this StreamMusic
@@ -286,7 +286,7 @@ public class StreamMusic implements Music {
 		this.dataURL = null;
 		this.reference = null;
 	}
-	
+
 	/////////////
 	//Reference//
 	/////////////
@@ -296,7 +296,7 @@ public class StreamMusic implements Music {
 	 * interface.
 	 */
 	private static class StreamMusicReference implements MusicReference {
-		
+
 		private URL url;
 		private InputStream data;
 		private long numBytesPerChannel; //not per frame, but the whole sound
@@ -308,7 +308,7 @@ public class StreamMusic implements Music {
 		private long position;
 		private double volume;
 		private double pan;
-		
+
 		/**
 		 * Constructs a new StreamMusicReference with the given audio data and
 		 * settings.
@@ -357,7 +357,7 @@ public class StreamMusic implements Music {
 		public synchronized boolean getLoop() {
 			return this.loop;
 		}
-		
+
 		/**
 		 * Get the byte index of this StreamMusicReference.
 		 * @return byte index of this StreamMusicReference
@@ -366,7 +366,7 @@ public class StreamMusic implements Music {
 		public synchronized long getPosition() {
 			return this.position;
 		}
-		
+
 		/**
 		 * Get the loop-position byte index of this StreamMusicReference.
 		 * @return loop-position byte index of this StreamMusicReference
@@ -482,7 +482,7 @@ public class StreamMusic implements Music {
 		public synchronized long bytesAvailable() {
 			return this.numBytesPerChannel - this.position;
 		}
-		
+
 		/**
 		 * Determine if there are no bytes remaining and play has stopped.
 		 * @return true if there are no bytes remaining and the reference is no

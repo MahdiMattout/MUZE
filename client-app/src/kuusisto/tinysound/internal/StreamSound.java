@@ -7,7 +7,7 @@
  *
  *     Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
- *     
+ *
  *     Redistributions in binary form must reproduce the above copyright notice,
  *     this list of conditions and the following disclaimer in the documentation
  *     and/or other materials provided with the distribution.
@@ -35,16 +35,16 @@ import kuusisto.tinysound.Sound;
 /**
  * Thes StreamSound class is an implementation of the Sound interface that
  * streams audio data from a temporary file to reduce memory overhead.
- * 
+ *
  * @author Finn Kuusisto
  */
 public class StreamSound implements Sound {
-	
+
 	private URL dataURL;
 	private long numBytesPerChannel;
 	private Mixer mixer;
 	private final int ID;
-	
+
 	/**
 	 * Construct a new StreamSound with the given data and Mixer which will
 	 * handle this StreamSound.
@@ -122,21 +122,21 @@ public class StreamSound implements Sound {
 		this.mixer = null;
 		this.dataURL = null;
 	}
-	
+
 	/////////////
 	//Reference//
 	/////////////
-	
+
 	/**
 	 * The StreamSoundReference class is an implementation of the SoundReference
 	 * interface.
-	 * 
+	 *
 	 * @Finn Kuusisto
 	 */
 	private static class StreamSoundReference implements SoundReference {
-		
+
 		public final int SOUND_ID;
-		
+
 		private InputStream data;
 		private long numBytesPerChannel; //not per frame, but the whole sound
 		private long position;
@@ -144,7 +144,7 @@ public class StreamSound implements Sound {
 		private double pan;
 		private byte[] buf;
 		private byte[] skipBuf;
-		
+
 		/**
 		 * Construct a new StreamSoundReference with the given reference data.
 		 * @param data the stream of the audio data
@@ -201,7 +201,7 @@ public class StreamSound implements Sound {
 		@Override
 		public long bytesAvailable() {
 			return this.numBytesPerChannel - this.position;
-		}		
+		}
 
 		/**
 		 * Skip a specified number of bytes of the audio data.
@@ -242,7 +242,7 @@ public class StreamSound implements Sound {
 				this.position += num;
 			}
 		}
-		
+
 		/**
 		 * Get the next two bytes from the sound data in the specified
 		 * endianness.

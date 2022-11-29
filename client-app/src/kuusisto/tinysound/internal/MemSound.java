@@ -7,7 +7,7 @@
  *
  *     Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
- *     
+ *
  *     Redistributions in binary form must reproduce the above copyright notice,
  *     this list of conditions and the following disclaimer in the documentation
  *     and/or other materials provided with the distribution.
@@ -31,16 +31,16 @@ import kuusisto.tinysound.Sound;
 /**
  * The MemSound class is an implementation of the Sound interface that stores
  * all audio data in memory for low latency.
- * 
+ *
  * @author Finn Kuusisto
  */
 public class MemSound implements Sound {
-	
+
 	private byte[] left;
 	private byte[] right;
 	private Mixer mixer;
 	private final int ID; //unique ID to match references
-	
+
 	/**
 	 * Construct a new MemSound with the given data and Mixer which will handle
 	 * this MemSound.
@@ -55,7 +55,7 @@ public class MemSound implements Sound {
 		this.mixer = mixer;
 		this.ID = id;
 	}
-	
+
 	/**
 	 * Plays this MemSound.
 	 */
@@ -63,7 +63,7 @@ public class MemSound implements Sound {
 	public void play() {
 		this.play(1.0);
 	}
-	
+
 	/**
 	 * Plays this MemSound with a specified volume.
 	 * @param volume the volume at which to play this MemSound
@@ -86,7 +86,7 @@ public class MemSound implements Sound {
 				volume, pan, this.ID);
 		this.mixer.registerSoundReference(ref);
 	}
-	
+
 	/**
 	 * Stops this MemSound from playing.  Note that if this MemSound was played
 	 * repeatedly in an overlapping fashion, all instances of this MemSound
@@ -96,7 +96,7 @@ public class MemSound implements Sound {
 	public void stop() {
 		this.mixer.unRegisterSoundReference(this.ID);
 	}
-	
+
 	/**
 	 * Unloads this MemSound from the system.  Attempts to use this MemSound
 	 * after unloading will result in error.
@@ -108,27 +108,27 @@ public class MemSound implements Sound {
 		this.left = null;
 		this.right = null;
 	}
-	
+
 	/////////////
 	//Reference//
 	/////////////
-	
+
 	/**
 	 * The MemSoundReference is an implementation of the SoundReference
 	 * interface.
-	 * 
+	 *
 	 * @author Finn Kuusisto
 	 */
 	private static class MemSoundReference implements SoundReference {
 
 		public final int SOUND_ID; //parent MemSound
-		
+
 		private byte[] left;
 		private byte[] right;
 		private int position;
 		private double volume;
 		private double pan;
-		
+
 		/**
 		 * Construct a new MemSoundReference with the given reference data.
 		 * @param left left channel of sound data
@@ -155,7 +155,7 @@ public class MemSound implements Sound {
 		public int getSoundID() {
 			return this.SOUND_ID;
 		}
-		
+
 		/**
 		 * Gets the volume of this MemSoundReference.
 		 * @return volume of this MemSoundReference
@@ -173,7 +173,7 @@ public class MemSound implements Sound {
 		public double getPan() {
 			return this.pan;
 		}
-		
+
 		/**
 		 * Get the number of bytes remaining for each channel.
 		 * @return number of bytes remaining for each channel
@@ -182,7 +182,7 @@ public class MemSound implements Sound {
 		public long bytesAvailable() {
 			return this.left.length - this.position;
 		}
-		
+
 		/**
 		 * Skip a specified number of bytes of the audio data.
 		 * @param num number of bytes to skip
@@ -191,7 +191,7 @@ public class MemSound implements Sound {
 		public synchronized void skipBytes(long num) {
 			this.position += num;
 		}
-		
+
 		/**
 		 * Get the next two bytes from the sound data in the specified
 		 * endianness.
@@ -230,7 +230,7 @@ public class MemSound implements Sound {
 			this.left = null;
 			this.right = null;
 		}
-		
+
 	}
 
 }

@@ -19,7 +19,7 @@ import controller.MainFrameController;
 public class LoginPanel extends JPanel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel signinLabel = new JLabel("Sign In");
@@ -38,7 +38,7 @@ public class LoginPanel extends JPanel {
 
 		setBackground(Color.WHITE);
 		signinLabel.setOpaque(true);
-		signinLabel.setBorder(new MatteBorder(2, 0, 0, 0, (Color) new Color(15, 157, 88)));
+		signinLabel.setBorder(new MatteBorder(2, 0, 0, 0, new Color(15, 157, 88)));
 
 		signinLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		signinLabel.setForeground(new Color(85, 85, 85));
@@ -89,7 +89,7 @@ public class LoginPanel extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				if (!isSignInSelected) {
 					signinLabel.setBackground(Color.WHITE);
-					signinLabel.setBorder(new MatteBorder(2, 0, 0, 0, (Color) new Color(15, 157, 88)));
+					signinLabel.setBorder(new MatteBorder(2, 0, 0, 0, new Color(15, 157, 88)));
 					signupLabel.setBackground(new Color(233, 235, 238));
 					signupLabel.setBorder(null);
 					panel.removeAll();
@@ -110,7 +110,7 @@ public class LoginPanel extends JPanel {
 					signinLabel.setBackground(new Color(233, 235, 238));
 					signinLabel.setBorder(null);
 					signupLabel.setBackground(Color.WHITE);
-					signupLabel.setBorder(new MatteBorder(2, 0, 0, 0, (Color) new Color(15, 157, 88)));
+					signupLabel.setBorder(new MatteBorder(2, 0, 0, 0, new Color(15, 157, 88)));
 					panel.removeAll();
 					panel.add(new SignupPanel(frameController));
 					panel.repaint();
