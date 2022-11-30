@@ -1,3 +1,7 @@
+/.DS_Store
+/database/
+/entity/
 /resources/
 /services/
-/entity/
+/uitls/
+/view/

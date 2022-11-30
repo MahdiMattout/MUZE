@@ -145,61 +145,63 @@ public class ClientPanel extends JPanel {
 				.addContainerGap()));
 		panel_1.setLayout(gl_panel_1);
 		
-		
-		GroupLayout gl_panel2 = new GroupLayout(panel);
-		gl_panel2.setHorizontalGroup(gl_panel2.createParallelGroup(Alignment.LEADING).addGap(0, 751, Short.MAX_VALUE)
-				.addGroup(gl_panel2.createSequentialGroup()
-						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 586, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(165, Short.MAX_VALUE)));
-		gl_panel2.setVerticalGroup(gl_panel2.createParallelGroup(Alignment.LEADING).addGap(0, 77, Short.MAX_VALUE)
-				.addGroup(gl_panel2.createSequentialGroup()
-						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 75, Short.MAX_VALUE).addContainerGap()));
-		panel.setLayout(gl_panel2);
-
-		JScrollPane scrollPane = new JScrollPane();
-
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(Color.WHITE);
-
 		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
-				groupLayout.createSequentialGroup().addGap(20)
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(panel_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
-								.addComponent(scrollPane))
-						.addGap(63)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup().addContainerGap()
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE).addGap(18)
-						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE).addContainerGap()));
-
-		refreshLabel.setIcon(new ImageIcon(ClientPanel.class.getResource("/resources/refresh (1).png")));
 		
-		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
-		gl_panel_2.setHorizontalGroup(gl_panel_2.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
-				gl_panel_2.createSequentialGroup().addContainerGap(715, Short.MAX_VALUE).addComponent(refreshLabel,
-						GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)));
-		gl_panel_2.setVerticalGroup(gl_panel_2.createParallelGroup(Alignment.LEADING).addComponent(refreshLabel,
-				GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE));
-		panel_2.setLayout(gl_panel_2);
-
-		
+//		GroupLayout gl_panel2 = new GroupLayout(panel);
+//		gl_panel2.setHorizontalGroup(gl_panel2.createParallelGroup(Alignment.LEADING).addGap(0, 751, Short.MAX_VALUE)
+//				.addGroup(gl_panel2.createSequentialGroup()
+//						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 586, GroupLayout.PREFERRED_SIZE)
+//						.addContainerGap(165, Short.MAX_VALUE)));
+//		gl_panel2.setVerticalGroup(gl_panel2.createParallelGroup(Alignment.LEADING).addGap(0, 77, Short.MAX_VALUE)
+//				.addGroup(gl_panel2.createSequentialGroup()
+//						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 75, Short.MAX_VALUE).addContainerGap()));
+//		panel.setLayout(gl_panel2);
+//
+		JScrollPane scrollPane = new JScrollPane();
+//
+//		JPanel panel_2 = new JPanel();
+//		panel_2.setBackground(Color.WHITE);
+//
+//		GroupLayout groupLayout = new GroupLayout(this);
+//		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
+//				groupLayout.createSequentialGroup().addGap(20)
+//						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+//								.addComponent(panel_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
+//										GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//								.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
+//								.addComponent(scrollPane))
+//						.addGap(63)));
+//		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+//				.addGroup(groupLayout.createSequentialGroup().addContainerGap()
+//						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE).addGap(18)
+//						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+//						.addPreferredGap(ComponentPlacement.RELATED)
+//						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE).addContainerGap()));
+//
+//		refreshLabel.setIcon(new ImageIcon(ClientPanel.class.getResource("/resources/refresh (1).png")));
+//		
+//		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
+//		gl_panel_2.setHorizontalGroup(gl_panel_2.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
+//				gl_panel_2.createSequentialGroup().addContainerGap(715, Short.MAX_VALUE).addComponent(refreshLabel,
+//						GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)));
+//		gl_panel_2.setVerticalGroup(gl_panel_2.createParallelGroup(Alignment.LEADING).addComponent(refreshLabel,
+//				GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE));
+//		panel_2.setLayout(gl_panel_2);
+//
+//		
 		
 		// HERE !! NEED TO LET IT BE LIKE THE SERVER: DISPLAY ALL SONGS
 		try {
-			table = new JTable(ProjectEchoClient.findProjectsForDataTable(), new String[] { "User", "Song" });
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
+			//table = new JTable(ProjectEchoClient.findProjectsForDataTable(), new String[] { "User", "Song" });
+			table = new JTable();
+		} catch (Exception e) {
+		//catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
 		table.setRowHeight(50);
 		table.getTableHeader().setBackground(Color.white);
 		table.getTableHeader().setFont(new Font("Andalus", Font.BOLD, 22));
-		scrollPane.setBackground(Color.white);
+	    scrollPane.setBackground(Color.white);
 		scrollPane.setViewportView(table);
 		table.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLACK));
 		setLayout(groupLayout);

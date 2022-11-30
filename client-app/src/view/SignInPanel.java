@@ -91,6 +91,7 @@ public class SignInPanel extends JPanel {
 					if (user.getId() > 0) {
 						Singleton.setCurrentUser(user);
 						frameController.navigateToProject(new ClientPanel(user));
+						//frameController.navigateToProject(new ProjectPanel(user));
 					}
 				} catch (ClassNotFoundException | IOException e1) {
 					// TODO Auto-generated catch block
